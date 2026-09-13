@@ -3,270 +3,303 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pertemuan 3: Anatomi Alur & Tipologi Cerita Fantasi</title>
+  <title>Pertemuan 3 - Belajar Jalan Cerita & Jenis Cerita Fantasi</title>
   <style>
     :root {
-      --primary: #0f766e;
-      --primary-light: #14b8a6;
-      --accent: #f59e0b;
-      --bg: #f8fafc;
-      --surface: #ffffff;
-      --text-main: #0f172a;
-      --text-muted: #475569;
-      --border: #cbd5e1;
-      --success: #15803d;
-      --danger: #b91c1c;
-      --radius: 10px;
+      --primary-color: #1e3a8a;
+      --secondary-color: #2563eb;
+      --accent-color: #d97706;
+      --bg-color: #f8fafc;
+      --card-bg: #ffffff;
+      --text-color: #1e293b;
+      --border-color: #cbd5e1;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      font-family: 'Segoe UI', Arial, sans-serif;
     }
 
     body {
-      background-color: var(--bg);
-      color: var(--text-main);
-      line-height: 1.6;
-      padding-bottom: 60px;
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      line-height: 1.7;
+      padding: 15px;
     }
 
     header {
-      background: linear-gradient(135deg, #115e59, #134e4a);
+      background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
       color: white;
-      padding: 2.5rem 1.5rem;
+      padding: 22px 18px;
       text-align: center;
-      border-bottom: 4px solid var(--accent);
+      border-radius: 12px;
+      margin-bottom: 22px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
     }
 
     header h1 {
-      font-size: 1.8rem;
-      margin-bottom: 0.5rem;
-      letter-spacing: -0.5px;
+      font-size: 1.5rem;
+      margin-bottom: 6px;
     }
 
     header p {
       font-size: 0.95rem;
-      color: #99f6e4;
-      max-width: 750px;
-      margin: 0 auto;
+      opacity: 0.95;
     }
 
-    .container {
-      max-width: 950px;
-      margin: 2rem auto;
-      padding: 0 1rem;
+    section {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 22px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
     }
 
-    .card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-      margin-bottom: 1.8rem;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-    }
-
-    .card-title {
-      font-size: 1.25rem;
-      font-weight: 700;
-      color: var(--primary);
-      margin-bottom: 1rem;
+    .section-title {
+      font-size: 1.2rem;
+      color: var(--primary-color);
+      margin-bottom: 14px;
+      border-bottom: 2px solid var(--secondary-color);
+      padding-bottom: 8px;
       display: flex;
       align-items: center;
-      gap: 0.5rem;
-      border-bottom: 2px solid var(--border);
-      padding-bottom: 0.5rem;
+      gap: 8px;
     }
 
-    /* Interactive Climax Curve / Alur */
-    .plot-stepper {
-      display: flex;
-      justify-content: space-between;
-      gap: 0.5rem;
-      margin: 1.5rem 0 1rem 0;
-      position: relative;
-    }
-
-    .plot-step-btn {
-      flex: 1;
-      background: #f1f5f9;
-      border: 2px solid var(--border);
-      padding: 0.8rem 0.5rem;
-      border-radius: 8px;
-      cursor: pointer;
-      text-align: center;
-      transition: all 0.2s;
-      font-size: 0.85rem;
-      font-weight: 600;
-      color: var(--text-muted);
-    }
-
-    .plot-step-btn:hover {
-      border-color: var(--primary-light);
-      background: #ccfbf1;
-    }
-
-    .plot-step-btn.active {
-      background: #0f766e;
-      color: white;
-      border-color: #0f766e;
-      box-shadow: 0 4px 10px rgba(15, 118, 110, 0.25);
-    }
-
-    .plot-info-box {
-      background: #f0fdfa;
-      border-left: 4px solid var(--primary);
-      padding: 1.2rem;
-      border-radius: 6px;
-      margin-top: 1rem;
-      font-size: 0.95rem;
-    }
-
-    /* Typology Matrix */
-    .grid-2 {
+    .grid-2col {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 15px;
+      margin-top: 15px;
     }
 
-    @media (max-width: 650px) {
-      .grid-2 {
-        grid-template-columns: 1fr;
-      }
-      .plot-stepper {
-        flex-direction: column;
-      }
-    }
-
-    .type-card {
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1.2rem;
-      background: #fafafa;
-    }
-
-    .type-card h3 {
-      font-size: 1rem;
-      color: var(--primary);
-      margin-bottom: 0.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .type-pill {
-      display: inline-block;
-      padding: 0.15rem 0.5rem;
-      border-radius: 4px;
-      font-size: 0.75rem;
-      font-weight: bold;
-      background: #e2e8f0;
-      margin-bottom: 0.5rem;
-    }
-
-    /* Table */
-    .table-responsive {
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 1rem 0;
-      font-size: 0.95rem;
-    }
-
-    th, td {
-      border: 1px solid var(--border);
-      padding: 0.75rem 1rem;
-      text-align: left;
-    }
-
-    th {
+    .concept-card {
       background-color: #f1f5f9;
-      color: var(--primary);
-    }
-
-    /* Form Components */
-    textarea, input[type="text"], select {
-      width: 100%;
-      padding: 0.7rem;
-      border: 1px solid #cbd5e1;
+      border-left: 4px solid var(--secondary-color);
+      padding: 15px;
       border-radius: 6px;
-      margin-top: 0.4rem;
-      margin-bottom: 0.8rem;
+    }
+
+    .concept-card h4 {
+      color: var(--primary-color);
+      margin-bottom: 6px;
+      font-size: 1rem;
+    }
+
+    .concept-card p {
+      font-size: 0.9rem;
+      color: #334155;
+    }
+
+    .tab-container {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 15px;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .tab-btn {
+      flex: 0 0 auto;
+      padding: 12px 20px;
+      background-color: #e2e8f0;
+      color: #475569;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+    }
+
+    .tab-btn.active {
+      background-color: var(--secondary-color);
+      color: white;
+      box-shadow: 0 3px 6px rgba(37, 99, 235, 0.3);
+    }
+
+    .tab-content {
+      display: none;
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 20px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      margin-bottom: 20px;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .story-title {
+      color: var(--primary-color);
+      font-size: 1.2rem;
+      margin-bottom: 12px;
+      border-bottom: 2px solid var(--border-color);
+      padding-bottom: 6px;
+    }
+
+    .story-text p {
+      margin-bottom: 14px;
+      text-align: justify;
+      text-indent: 1.5em;
       font-size: 0.95rem;
+      line-height: 1.7;
     }
 
-    textarea:focus, input[type="text"]:focus, select:focus {
-      outline: none;
-      border-color: var(--primary-light);
-      box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.15);
+    .task-section {
+      margin-top: 25px;
+      background-color: #f1f5f9;
+      padding: 15px;
+      border-radius: 10px;
     }
 
-    .btn {
-      background: var(--primary);
+    .task-title {
+      font-size: 1.05rem;
+      color: var(--primary-color);
+      margin-bottom: 12px;
+    }
+
+    .question-card {
+      background: white;
+      padding: 14px;
+      border-radius: 8px;
+      margin-bottom: 12px;
+      border: 1px solid #cbd5e1;
+    }
+
+    .question-card p {
+      font-weight: bold;
+      margin-bottom: 8px;
+      font-size: 0.92rem;
+    }
+
+    .option-label {
+      display: block;
+      padding: 9px 12px;
+      margin-bottom: 5px;
+      border-radius: 6px;
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      font-size: 0.88rem;
+      cursor: pointer;
+    }
+
+    .option-label:hover {
+      background-color: #e2e8f0;
+    }
+
+    .option-label input[type="radio"] {
+      margin-right: 8px;
+    }
+
+    .essay-card {
+      background: #fffbeb;
+      border: 2px dashed var(--accent-color);
+      padding: 16px;
+      border-radius: 10px;
+      margin-top: 15px;
+    }
+
+    .essay-card h4 {
+      color: #b45309;
+      margin-bottom: 6px;
+      font-size: 1rem;
+    }
+
+    .essay-card p {
+      font-size: 0.9rem;
+      color: #78350f;
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background-color: #10b981;
       color: white;
       border: none;
-      padding: 0.6rem 1.2rem;
-      font-size: 0.9rem;
-      font-weight: 600;
-      border-radius: 6px;
-      cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    .btn:hover {
-      background: #115e59;
-    }
-
-    .btn-secondary {
-      background: #475569;
-    }
-
-    .btn-secondary:hover {
-      background: #334155;
-    }
-
-    /* Quiz Component */
-    .quiz-option {
-      display: block;
-      background: white;
-      border: 1px solid var(--border);
-      padding: 0.8rem 1rem;
-      border-radius: 6px;
-      margin-bottom: 0.5rem;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .quiz-option:hover {
-      border-color: var(--primary-light);
-      background: #f0fdfa;
-    }
-
-    .quiz-option.correct {
-      background: #dcfce7;
-      border-color: var(--success);
-      color: var(--success);
+      border-radius: 8px;
+      font-size: 1rem;
       font-weight: bold;
+      cursor: pointer;
+      margin-top: 15px;
+      box-shadow: 0 4px 6px rgba(16, 185, 129, 0.2);
     }
 
-    .quiz-option.incorrect {
-      background: #fee2e2;
-      border-color: var(--danger);
-      color: var(--danger);
+    .btn-submit:hover {
+      background-color: #059669;
     }
 
-    .feedback-box {
-      margin-top: 0.8rem;
-      padding: 0.8rem;
-      border-radius: 6px;
-      font-size: 0.9rem;
+    .result-panel {
       display: none;
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      border: 2px solid var(--secondary-color);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    .result-score {
+      font-size: 2.5rem;
+      font-weight: bold;
+      color: var(--secondary-color);
+      margin: 10px 0;
+    }
+
+    .result-msg {
+      font-size: 0.95rem;
+      margin-bottom: 15px;
+    }
+
+    .btn-retry {
+      padding: 10px 20px;
+      background-color: var(--secondary-color);
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .final-instruction-box {
+      background: linear-gradient(135deg, #fef3c7, #fde68a);
+      border: 2px solid var(--accent-color);
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 30px;
+    }
+
+    .final-instruction-box h3 {
+      color: #92400e;
+      margin-bottom: 10px;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .final-instruction-box ol {
+      margin-left: 20px;
+      color: #78350f;
+      font-size: 0.93rem;
+    }
+
+    .final-instruction-box li {
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 600px) {
+      body { padding: 10px; }
+      header { padding: 15px; }
+      section { padding: 15px; }
+      .tab-content { padding: 15px; }
     }
   </style>
 </head>
@@ -274,267 +307,589 @@
 
   <header>
     <h1>Modul Interaktif: Pertemuan 3</h1>
-    <p>Membedah Anatomi Alur Dramatik & Tipologi Ragam Kategori Cerita Fantasi</p>
+    <p>Belajar Jalan Cerita & Jenis-Jenis Cerita Fantasi Nusantara</p>
   </header>
 
-  <main class="container">
+  <!-- MATERI PEMBELAJARAN 1: STRUKTUR ALUR -->
+  <section>
+    <h2 class="section-title"><span>📈</span> 1. Bagian-Bagian Jalan Cerita Fantasi</h2>
+    <p>
+      Cerita fantasi memiliki jalan cerita (alur) yang membuat kita penasaran saat membacanya. Ada 3 bagian utama dalam cerita fantasi:
+    </p>
 
-    <!-- Section 1: Dynamic Plot Stepper -->
-    <section class="card">
-      <div class="card-title">
-        <span>📈</span> 1. Anatomi Tripartit & Eskalasi Alur Fantasi
-      </div>
-      <p style="font-size: 0.95rem; color: var(--text-muted);">
-        Struktur narasi cerita fantasi menggerakkan pembaca melalui kurva ketegangan yang terencana. Klik setiap tahapan di bawah untuk mempelajari fungsi struktural dan contoh implementasinya:
-      </p>
-
-      <div class="plot-stepper">
-        <button class="plot-step-btn active" onclick="showPlotDetail('orientasi', this)">
-          1. Orientasi<br><small style="font-weight: normal;">(Pengenalan)</small>
-        </button>
-        <button class="plot-step-btn" onclick="showPlotDetail('pemicu', this)">
-          2. Pemicu Konflik<br><small style="font-weight: normal;">(Insiden Awal)</small>
-        </button>
-        <button class="plot-step-btn" onclick="showPlotDetail('klimaks', this)">
-          3. Puncak Konflik<br><small style="font-weight: normal;">(Klimaks)</small>
-        </button>
-        <button class="plot-step-btn" onclick="showPlotDetail('peleraian', this)">
-          4. Peleraian<br><small style="font-weight: normal;">(Antiklimaks)</small>
-        </button>
-        <button class="plot-step-btn" onclick="showPlotDetail('resolusi', this)">
-          5. Resolusi<br><small style="font-weight: normal;">(Penyelesaian)</small>
-        </button>
+    <div class="grid-2col">
+      <div class="concept-card">
+        <h4>1. Orientasi (Pengenalan Cerita)</h4>
+        <p>Bagian pembuka untuk mengenalkan tokoh, tempat tinggalnya, suasana cerita, serta awal mula munculnya kejadian ajaib atau aneh.</p>
       </div>
 
-      <div id="plot-detail-box" class="plot-info-box">
-        <strong>Fase Orientasi:</strong> Bagian pembuka yang berfungsi memperkenalkan identitas tokoh utama, kebiasaannya, serta atmosfer dunia cerita (kondisi normal sebelum keajaiban atau krisis muncul).<br><br>
-        <em>Contoh Adegan:</em> "Di Lembah Aethel, Rian menghabiskan masa mudanya merawat pohon-pohon perak yang daunnya berdesir merdu saat fajar menyingsing."
+      <div class="concept-card">
+        <h4>2. Komplikasi (Puncak Masalah)</h4>
+        <p>Bagian di mana tokoh utama mulai menghadapi masalah besar, seperti diserang monster ajaib, terjebak di zaman kuno, atau bahaya lainnya.</p>
       </div>
-    </section>
 
-    <!-- Section 2: Typology Classification -->
-    <section class="card">
-      <div class="card-title">
-        <span>🗺️</span> 2. Matriks Klasifikasi Jenis Teks Fantasi
+      <div class="concept-card">
+        <h4>3. Resolusi (Penyelesaian Masalah)</h4>
+        <p>Bagian akhir cerita di mana tokoh berhasil menyelesaikan masalahnya menggunakan keberanian, ide cerdik, atau benda sakti.</p>
       </div>
-      <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1rem;">
-        Berdasarkan acuan buku teks Kurikulum Merdeka Kemendikbudristek, cerita fantasi dibedakan ke dalam dua sudut pandang kategori:
-      </p>
+    </div>
+  </section>
 
-      <div class="grid-2">
-        <!-- Kategori 1: Realitas -->
-        <div class="type-card">
-          <h3><span>🌐</span> Berdasarkan Kesesuaian Realitas</h3>
-          <hr style="border: 0; border-top: 1px solid var(--border); margin: 0.5rem 0 0.8rem 0;">
-          
-          <span class="type-pill" style="background: #e0f2fe; color: #0369a1;">Fantasi Total</span>
-          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.8rem;">
-            Semua unsur pada cerita (tokoh, nama kerajaan, flora/fauna, aturan fisika) murni hasil rekaan pengarang. Tidak ada nama tempat atau tokoh yang nyata di bumi.
-          </p>
+  <!-- MATERI PEMBELAJARAN 2: MATRIKS KLASIFIKASI -->
+  <section>
+    <h2 class="section-title"><span>🗺️</span> 2. Pembagian Jenis Cerita Fantasi</h2>
+    <p>
+      Sesuai dengan Buku Bahasa Indonesia Kelas 7, cerita fantasi dibagi menjadi beberapa jenis berdasarkan tempat dan waktunya:
+    </p>
 
-          <span class="type-pill" style="background: #fef3c7; color: #92400e;">Fantasi Irisan</span>
-          <p style="font-size: 0.88rem; color: var(--text-muted);">
-            Memadukan dunia khayalan dengan tempat nyata, tokoh sejarah, atau peristiwa faktual yang ada di dunia nyata (contoh: portal gaib di Candi Borobudur).
-          </p>
-        </div>
-
-        <!-- Kategori 2: Latar Waktu -->
-        <div class="type-card">
-          <h3><span>⏳</span> Berdasarkan Linimasa / Waktu</h3>
-          <hr style="border: 0; border-top: 1px solid var(--border); margin: 0.5rem 0 0.8rem 0;">
-          
-          <span class="type-pill" style="background: #dcfce7; color: #166534;">Latar Sezaman</span>
-          <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 0.8rem;">
-            Cerita hanya bergerak di satu masa saja: masa kini saja, masa purba/lampau saja, atau masa depan (futuristik) saja tanpa adanya perpindahan masa.
-          </p>
-
-          <span class="type-pill" style="background: #ede9fe; color: #6d28d9;">Latar Lintas Waktu</span>
-          <p style="font-size: 0.88rem; color: var(--text-muted);">
-            Tokoh mengalami perpindahan linimasa yang berbeda (misal: mesin waktu membawa siswa era 2026 kembali ke era Kerajaan Majapahit abad ke-14).
-          </p>
-        </div>
+    <div class="grid-2col">
+      <div class="concept-card">
+        <h4>🌐 Berdasarkan Keadaan Dunia Cerita</h4>
+        <p><strong>• Fantasi Total:</strong> Semua hal dalam cerita (nama tokoh, nama kerajaan, hewan ajaib) murni hasil khayalan pengarang. Tidak ada nama tempat nyata di bumi.<br>
+        <strong>• Fantasi Irisan:</strong> Pengarang menggabungkan dunia khayalan dengan nama tempat atau peristiwa nyata di dunia kita (contoh: Candi Prambanan atau Sungai Mahakam).</p>
       </div>
-    </section>
 
-    <!-- Section 3: Critical Thinking Case Quiz -->
-    <section class="card">
-      <div class="card-title">
-        <span>🎯</span> 3. Uji Penalaran Kritis: Klasifikasi Cerita
+      <div class="concept-card">
+        <h4>⏳ Berdasarkan Waktu Kejadian (Latar Waktu)</h4>
+        <p><strong>• Latar Sezaman:</strong> Cerita hanya terjadi pada satu masa saja (contoh: masa sekarang saja, masa purba saja, atau masa depan saja).<br>
+        <strong>• Latar Lintas Waktu:</strong> Tokoh berpindah dari satu masa ke masa lain (contoh: siswa zaman sekarang terlempar ke zaman kerajaan abad ke-9 atau masa purba).</p>
       </div>
-      <div id="quiz-container">
-        <p id="quiz-question" style="font-weight: 600; margin-bottom: 1rem;">
-          Bacalah sinopsis berikut:<br>
-          <em>"Tegar, seorang siswa SMP di Kota Bandung, menemukan koin perunggu antik di museum. Saat koin itu digosok, ia tersedot melintasi lorong waktu dan mendarat di pelabuhan Sunda Kelapa pada tahun 1527, di mana ia harus membantu seorang panglima perang menghentikan armada monster laut bersayap."</em><br><br>
-          Berdasarkan tipologinya, teks di atas diklasifikasikan sebagai jenis...
-        </p>
-        <div id="quiz-options">
-          <div class="quiz-option" onclick="checkQuiz(this, false, 'Salah. Cerita memuat tempat nyata (Kota Bandung, Sunda Kelapa) dan tahun nyata (1527), sehingga bukan fantasi total.')">
-            A. Fantasi Total dan Latar Sezaman
-          </div>
-          <div class="quiz-option" onclick="checkQuiz(this, false, 'Salah. Latar waktunya mengalami perpindahan dari masa kini ke abad ke-16 (lintas waktu), bukan sezaman.')">
-            B. Fantasi Irisan dan Latar Sezaman
-          </div>
-          <div class="quiz-option" onclick="checkQuiz(this, true, 'Tepat sekali! Fantasi Irisan karena memakai nama tempat nyata (Bandung & Sunda Kelapa), dan Lintas Waktu karena tokoh berpindah dari masa kini ke tahun 1527.')">
-            C. Fantasi Irisan dan Latar Lintas Waktu
-          </div>
-          <div class="quiz-option" onclick="checkQuiz(this, false, 'Salah. Tempat yang digunakan bukan fiktif total.')">
-            D. Fantasi Total dan Latar Lintas Waktu
-          </div>
-        </div>
-        <div id="quiz-feedback" class="feedback-box"></div>
+    </div>
+  </section>
+
+  <!-- SECTION PENELITIAN & INTEGRASI SAMPEL TEKS -->
+  <section>
+    <h2 class="section-title"><span>📚</span> 3. Contoh Cerita Fantasi Nusantara</h2>
+    <p>Klik tombol <strong>Baris 1</strong> sampai <strong>Baris 4</strong> di bawah ini untuk membaca cerita pendek, lalu jawab 10 soal kuisnya langsung di HP-mu!</p>
+  </section>
+
+  <!-- TAB NAVIGATION -->
+  <div class="tab-container">
+    <button class="tab-btn active" onclick="openTab(event, 'baris1')">Baris 1</button>
+    <button class="tab-btn" onclick="openTab(event, 'baris2')">Baris 2</button>
+    <button class="tab-btn" onclick="openTab(event, 'baris3')">Baris 3</button>
+    <button class="tab-btn" onclick="openTab(event, 'baris4')">Baris 4</button>
+  </div>
+
+  <!-- CONTENT BARIS 1 -->
+  <div id="baris1" class="tab-content active">
+    <h2 class="story-title">Baris 1: Portal Kitab Bandung Bondowoso</h2>
+    <div class="story-text">
+      <p>Arya, seorang siswa kelas 7 SMP dari kota Bandung yang sedang mengikuti kegiatan karya wisata ke Candi Prambanan di Yogyakarta, tanpa sadar terpisah dari rombongan teman-temannya karena terlalu asyik memotret relief kuno. Di tengah rintik hujan gerimis, langkah Arya terhenti tepat di depan sebuah dinding batu tua yang tertutup lumut tipis. Ketika jemarinya yang dingin menyentuh ukiran relief berbentuk pusaran angin misterius, tiba-tiba batu candi bergetar dan memancarkan cahaya biru terang yang sangat menyilaukan. Tanpa sempat berteriak minta tolong, tubuh Arya tersedot ke dalam lorong waktu dan terlempar sangat jauh hingga ia terjatuh di atas tanah berlumpur pada zaman kerajaan abad ke-9.</p>
+
+      <p>Saat perlahan membuka matanya, Arya sangat kaget karena udara di sekitarnya terasa sangat dingin dan menakutkan. Dari balik semak belukar yang lebat, ia mengintip sosok pria gagah berikat kepala—Bandung Bondowoso—yang sedang berdiri di tengah padang sambil membaca mantra rahasia untuk memanggil ribuan jin kegelapan demi membangun seribu candi dalam semalam. Arya bersembunyi di balik pohon besar sambil menahan napasnya rapat-rapat. Sebagai siswa yang menyukai pelajaran sejarah, Arya tahu betul bahayanya jika ia ketahuan: sedikit saja kecerobohan yang membuat jin melihatnya bisa mengubah sejarah dan membuat Candi Prambanan tidak pernah ada di masa depan.</p>
+
+      <p>Mengandalkan ide cerdik dan cerita legenda yang pernah ia pelajari di sekolah, Arya langsung bertindak diam-diam. Ia mengambil selembar sarung tua di dekat ladang, lalu menyalakan api kecil pada jerami kering di sebelah timur desa. Asap tebal membumbung ke udara disertai gesekan kayu yang menirukan suara nyaring ayam jantan berkokok, seolah-olah pagi hari sudah tiba. Siasat Arya berhasil menipu ribuan jin hingga mereka lari ketakutan meninggalkan candi ke-999 yang belum selesai. Begitu mantra terhenti, batu ajaib di tangan Arya kembali menyala hangat dan membawanya pulang melintasi waktu hingga ia terduduk kembali di Candi Prambanan masa kini tepat di depan bus sekolahnya.</p>
+    </div>
+
+    <div id="res_baris1" class="result-panel">
+      <h3>Hasil Nilai Baris 1</h3>
+      <div class="result-score" id="score_baris1">0 / 100</div>
+      <p class="result-msg" id="msg_baris1"></p>
+      <button class="btn-retry" onclick="resetForm('baris1')">Coba Lagi</button>
+    </div>
+
+    <form id="form_baris1" class="task-section">
+      <h3 class="task-title">📝 10 Soal Pilihan Ganda Interaktif (Baris 1)</h3>
+
+      <div class="question-card">
+        <p>1. Berdasarkan tempat dan waktunya, cerita Baris 1 termasuk ke dalam jenis...</p>
+        <label class="option-label"><input type="radio" name="b1_q1" value="0"> A. Fantasi Total dan Latar Sezaman</label>
+        <label class="option-label"><input type="radio" name="b1_q1" value="1"> B. Fantasi Irisan dan Latar Lintas Waktu</label>
+        <label class="option-label"><input type="radio" name="b1_q1" value="0"> C. Fantasi Irisan dan Latar Sezaman</label>
+        <label class="option-label"><input type="radio" name="b1_q1" value="0"> D. Fantasi Total dan Latar Lintas Waktu</label>
       </div>
-    </section>
 
-    <!-- Section 4: LKPD 3 - Pemetaan Alur & Tipologi -->
-    <section class="card">
-      <div class="card-title">
-        <span>📝</span> 4. Lembar Kerja Peserta Didik (LKPD 3: Pemetaan Alur)
+      <div class="question-card">
+        <p>2. Kejadian ajaib yang membuat Arya terlempar ke zaman kuno adalah...</p>
+        <label class="option-label"><input type="radio" name="b1_q2" value="0"> A. Membaca mantra bersama sopir bus</label>
+        <label class="option-label"><input type="radio" name="b1_q2" value="1"> B. Menyentuh ukiran relief berbentuk pusaran angin misterius</label>
+        <label class="option-label"><input type="radio" name="b1_q2" value="0"> C. Menyalakan api unggun di tengah lapangan candi</label>
+        <label class="option-label"><input type="radio" name="b1_q2" value="0"> D. Mengambil sarung tua di dekat ladang</label>
       </div>
-      <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
-        Rancang skema ketegangan alur cerita fantasi orisinalmu secara bertahap, lalu unduh hasilnya sebagai lembar portofolio pembelajaran.
-      </p>
 
-      <form id="lkpd3-form">
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-          <div>
-            <label for="student-name" style="font-weight: bold; font-size: 0.85rem;">Nama Siswa:</label>
-            <input type="text" id="student-name" placeholder="Nama lengkap..." required>
-          </div>
-          <div>
-            <label for="student-class" style="font-weight: bold; font-size: 0.85rem;">Kelas / No. Presensi:</label>
-            <input type="text" id="student-class" placeholder="Contoh: 7-D / 12" required>
-          </div>
-        </div>
+      <div class="question-card">
+        <p>3. Tokoh Arya terlempar dari masa sekarang menuju zaman kerajaan abad ke-...</p>
+        <label class="option-label"><input type="radio" name="b1_q3" value="0"> A. Abad ke-5</label>
+        <label class="option-label"><input type="radio" name="b1_q3" value="1"> B. Abad ke-9</label>
+        <label class="option-label"><input type="radio" name="b1_q3" value="0"> C. Abad ke-15</label>
+        <label class="option-label"><input type="radio" name="b1_q3" value="0"> D. Abad ke-21</label>
+      </div>
 
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-          <div>
-            <label for="fantasy-type1" style="font-weight: bold; font-size: 0.85rem;">Kategori Realitas:</label>
-            <select id="fantasy-type1">
-              <option value="Fantasi Total">Fantasi Total (Murni Rekaan)</option>
-              <option value="Fantasi Irisan">Fantasi Irisan (Campuran Dunia Nyata)</option>
-            </select>
-          </div>
-          <div>
-            <label for="fantasy-type2" style="font-weight: bold; font-size: 0.85rem;">Kategori Linimasa:</label>
-            <select id="fantasy-type2">
-              <option value="Latar Sezaman">Latar Sezaman (Satu Era)</option>
-              <option value="Latar Lintas Waktu">Latar Lintas Waktu (Melintasi Masa)</option>
-            </select>
-          </div>
-        </div>
+      <div class="question-card">
+        <p>4. Hal ajaib yang dilakukan oleh tokoh Bandung Bondowoso dalam cerita adalah...</p>
+        <label class="option-label"><input type="radio" name="b1_q4" value="0"> A. Membuat mesin waktu zaman modern</label>
+        <label class="option-label"><input type="radio" name="b1_q4" value="1"> B. Membaca mantra memanggil jin untuk membangun seribu candi</label>
+        <label class="option-label"><input type="radio" name="b1_q4" value="0"> C. Bertarung melawan naga laut selatan</label>
+        <label class="option-label"><input type="radio" name="b1_q4" value="0"> D. Menghentikan letusan gunung purba</label>
+      </div>
 
-        <label for="task-ori" style="font-weight: bold; font-size: 0.9rem; margin-top: 0.5rem; display: block;">
-          1. Peristiwa Bagian Orientasi:
-        </label>
-        <small style="color: var(--text-muted);">Bagaimana keadaan awal tokoh dan latarnya sebelum konflik terjadi?</small>
-        <textarea id="task-ori" rows="2" placeholder="Tuliskan adegan pembuka di sini..."></textarea>
+      <div class="question-card">
+        <p>5. Alasan Arya bersembunyi di balik pohon besar saat tiba di abad ke-9 adalah...</p>
+        <label class="option-label"><input type="radio" name="b1_q5" value="0"> A. Takut dimarahi oleh guru sekolahnya</label>
+        <label class="option-label"><input type="radio" name="b1_q5" value="1"> B. Khawatir kehadirannya merusak alur sejarah masa depan</label>
+        <label class="option-label"><input type="radio" name="b1_q5" value="0"> C. Sepatunya lepas dan tenggelam di lumpur</label>
+        <label class="option-label"><input type="radio" name="b1_q5" value="0"> D. Ingin meminta ilmu sakti dari Bandung Bondowoso</label>
+      </div>
 
-        <label for="task-komp" style="font-weight: bold; font-size: 0.9rem; margin-top: 0.5rem; display: block;">
-          2. Komplikasi (Pemicu & Puncak Konflik/Klimaks):
-        </label>
-        <small style="color: var(--text-muted);">Peristiwa ajaib/masalah apa yang muncul dan bagaimana ketegangan mencapai puncaknya?</small>
-        <textarea id="task-komp" rows="3" placeholder="Pemicu: ...&#10;Klimaks (Puncak Ketegangan): ..."></textarea>
+      <div class="question-card">
+        <p>6. Ide cerdik Arya untuk menipu pasukan jin berasal dari...</p>
+        <label class="option-label"><input type="radio" name="b1_q6" value="1"> A. Pelajaran sejarah dan legenda yang dipelajari di sekolah</label>
+        <label class="option-label"><input type="radio" name="b1_q6" value="0"> B. Bisikan gaib dari dinding batu candi</label>
+        <label class="option-label"><input type="radio" name="b1_q6" value="0"> C. Petunjuk dari supir bus sekolah</label>
+        <label class="option-label"><input type="radio" name="b1_q6" value="0"> D. Pesan rahasia yang tertulis di sarung tua</label>
+      </div>
 
-        <label for="task-res" style="font-weight: bold; font-size: 0.9rem; margin-top: 0.5rem; display: block;">
-          3. Bagian Resolusi (Penyelesaian Akhir):
-        </label>
-        <small style="color: var(--text-muted);">Bagaimana nasib tokoh dan bagaimana keadaan dunia setelah masalah teratasi?</small>
-        <textarea id="task-res" rows="2" placeholder="Tuliskan adegan penutup di sini..."></textarea>
+      <div class="question-card">
+        <p>7. Cara yang dilakukan Arya untuk menipu pasukan jin agar mengira hari sudah pagi adalah...</p>
+        <label class="option-label"><input type="radio" name="b1_q7" value="0"> A. Menyerang jin memakai tongkat sakti</label>
+        <label class="option-label"><input type="radio" name="b1_q7" value="1"> B. Menyalakan api jerami dan menirukan suara ayam jantan berkokok</label>
+        <label class="option-label"><input type="radio" name="b1_q7" value="0"> C. Menembakkan sinar laser canggih</label>
+        <label class="option-label"><input type="radio" name="b1_q7" value="0"> D. Memanggil naga perak dari dasar sungai</label>
+      </div>
 
-        <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-          <button type="button" class="btn" onclick="downloadLKPD3()">📥 Unduh Lembar Kerja (.TXT)</button>
-          <button type="reset" class="btn btn-secondary">🔄 Reset</button>
-        </div>
-      </form>
-    </section>
+      <div class="question-card">
+        <p>8. Bagian <strong>Resolusi (Penyelesaian Masalah)</strong> pada cerita Baris 1 ditunjukkan saat...</p>
+        <label class="option-label"><input type="radio" name="b1_q8" value="0"> A. Arya terpisah dari rombongan teman-temannya</label>
+        <label class="option-label"><input type="radio" name="b1_q8" value="0"> B. Bandung Bondowoso membaca mantra dipadang rumput</label>
+        <label class="option-label"><input type="radio" name="b1_q8" value="1"> C. Pasukan jin kabur dan Arya kembali pulang ke masa sekarang</label>
+        <label class="option-label"><input type="radio" name="b1_q8" value="0"> D. Arya jatuh di tanah berlumpur abad ke-9</label>
+      </div>
 
-  </main>
+      <div class="question-card">
+        <p>9. Kata hubung (konjungsi) penanda waktu pada paragraf 1 adalah...</p>
+        <label class="option-label"><input type="radio" name="b1_q9" value="1"> A. Ketika jemarinya yang dingin menyentuh...</label>
+        <label class="option-label"><input type="radio" name="b1_q9" value="0"> B. Di tengah rintik hujan...</label>
+        <label class="option-label"><input type="radio" name="b1_q9" value="0"> C. Sebuah dinding batu tua...</label>
+        <label class="option-label"><input type="radio" name="b1_q9" value="0"> D. Rombongan teman-temannya...</label>
+      </div>
+
+      <div class="question-card">
+        <p>10. Sikap baik yang bisa kita contoh dari tokoh Arya adalah...</p>
+        <label class="option-label"><input type="radio" name="b1_q10" value="0"> A. Melarikan diri dan tidak mau peduli</label>
+        <label class="option-label"><input type="radio" name="b1_q10" value="1"> B. Menggunakan ilmu yang dipelajari untuk menyelesaikan masalah dengan tenang</label>
+        <label class="option-label"><input type="radio" name="b1_q10" value="0"> C. Merusak tempat bersejarah di tempat wisata</label>
+        <label class="option-label"><input type="radio" name="b1_q10" value="0"> D. Ikut membantu jin membuat candi demi uang</label>
+      </div>
+
+      <button type="button" class="btn-submit" onclick="calculateScore('baris1', keys_b1)">Kirim & Cek Nilai (Baris 1)</button>
+
+      <div class="essay-card">
+        <h4>✍️ Soal Ke-11 (Wajib Ditulis di Buku Tugas):</h4>
+        <p><strong>Soal Uraian Analisis:</strong> Berdasarkan cerita <em>Portal Kitab Bandung Bondowoso</em>, sebutkanlah hubungan antara legenda Candi Prambanan asli dengan bagian cerita khayalan buatan pengarang! Menurutmu, apakah tindakan Arya menipu jin sudah tepat? Tuliskan alasanmu minimal 3 kalimat!</p>
+      </div>
+    </form>
+  </div>
+
+  <!-- CONTENT BARIS 2 -->
+  <div id="baris2" class="tab-content">
+    <h2 class="story-title">Baris 2: Pelindung Samudra Istana Laut Selatan</h2>
+    <div class="story-text">
+      <p>Jauh di kedalaman Palung Laut Selatan yang sangat gelap dan tak pernah kena sinar matahari, berdiri sebuah kerajaan bawah laut yang megah bernama Kerajaan Kadatuan Samudra. Istana indah ini dibangun dengan tiang-tiang raksasa dari kristal mutiara api yang bersinar keemasan dan menghangatkan seluruh isi laut. Kerajaan khayalan ini dipimpin oleh Nyai Ratu Wijaya, seorang ratu pemberani berkulit sisik biru emas yang memiliki kekuatan ajaib untuk mengendalikan arus laut hanya dengan pikirannya. Selama bertahun-tahun, rakyat dasar laut hidup tenang di bawah perlindungan perisai sihir dari Tongkat Karang Sakti milik Ratu.</p>
+
+      <p>Namun, kedamaian itu mendadak rusak ketika gempa bumi dasar laut yang sangat kuat terjadi hingga membelah jurang bawah air. Dari dalam retakan tanah yang gelap, bangkitlah monster raksasa penjelmaan pusaran air hitam bersisik besi yang bernama Leviathan Purba setelah tertidur selama seribu tahun. Dengan raungan keras yang menggetarkan air, monster itu menyemburkan api hijau dari mulutnya untuk merusak perisai sihir istana. Pasukan pengawal kerajaan terpental tidak berdaya dihantam kibasan ekor besi monster purba tersebut.</p>
+
+      <p>Melihat kerajaannya hampir hancur, Ratu Wijaya berenang cepat lalu berdiri di atas terumbu karang tertinggi. Dengan penuh keberanian, sang Ratu menghentakkan Tongkat Karang Sakti ke tanah sambil mengeluarkan seluruh kekuatan ajaibnya. Dalam sekejap, air laut berputar hingga membentuk sepuluh naga air raksasa dari mutiara yang langsung menyerang rahang Leviathan Purba. Pertempuran di dasar laut itu akhirnya selesai setelah Ratu Wijaya berhasil mengurung kembali monster tersebut ke dalam jurang bawah tanah, sehingga kerajaan laut kembali damai.</p>
+    </div>
+
+    <div id="res_baris2" class="result-panel">
+      <h3>Hasil Nilai Baris 2</h3>
+      <div class="result-score" id="score_baris2">0 / 100</div>
+      <p class="result-msg" id="msg_baris2"></p>
+      <button class="btn-retry" onclick="resetForm('baris2')">Coba Lagi</button>
+    </div>
+
+    <form id="form_baris2" class="task-section">
+      <h3 class="task-title">📝 10 Soal Pilihan Ganda Interaktif (Baris 2)</h3>
+
+      <div class="question-card">
+        <p>1. Cerita Baris 2 disebut sebagai <strong>Fantasi Total</strong> karena...</p>
+        <label class="option-label"><input type="radio" name="b2_q1" value="1"> A. Semua tokoh, tempat, dan kejadian murni hasil khayalan tanpa ada di dunia nyata</label>
+        <label class="option-label"><input type="radio" name="b2_q1" value="0"> B. Terjadi di sekolah Kota Bandung</label>
+        <label class="option-label"><input type="radio" name="b2_q1" value="0"> C. Menggunakan mesin waktu mesin zaman modern</label>
+        <label class="option-label"><input type="radio" name="b2_q1" value="0"> D. Menceritakan sejarah nyata Kerajaan Majapahit</label>
+      </div>
+
+      <div class="question-card">
+        <p>2. Berdasarkan waktu kejadiannya (latar waktu), cerita Baris 2 termasuk jenis...</p>
+        <label class="option-label"><input type="radio" name="b2_q2" value="0"> A. Latar Lintas Waktu Masa Depan</label>
+        <label class="option-label"><input type="radio" name="b2_q2" value="1"> B. Latar Sezaman</label>
+        <label class="option-label"><input type="radio" name="b2_q2" value="0"> C. Latar Lintas Waktu Zaman Purba</label>
+        <label class="option-label"><input type="radio" name="b2_q2" value="0"> D. Latar Gabungan Dimensi</label>
+      </div>
+
+      <div class="question-card">
+        <p>3. Ciri fisik ajaib yang dimiliki oleh tokoh Ratu Wijaya adalah...</p>
+        <label class="option-label"><input type="radio" name="b2_q3" value="0"> A. Pakai baju penyelam modern</label>
+        <label class="option-label"><input type="radio" name="b2_q3" value="1"> B. Berkulit sisik biru emas dan bisa mengatur arus laut</label>
+        <label class="option-label"><input type="radio" name="b2_q3" value="0"> C. Memiliki sayap garuda besar</label>
+        <label class="option-label"><input type="radio" name="b2_q3" value="0"> D. Memakai kalung batu ajaib penawar racun</label>
+      </div>
+
+      <div class="question-card">
+        <p>4. Benda sakti yang digunakan untuk menjaga perisai perlindungan istana adalah...</p>
+        <label class="option-label"><input type="radio" name="b2_q4" value="0"> A. Dinding Batu Relief</label>
+        <label class="option-label"><input type="radio" name="b2_q4" value="1"> B. Tongkat Karang Sakti</label>
+        <label class="option-label"><input type="radio" name="b2_q4" value="0"> C. Mesin Mesin Waktu</label>
+        <label class="option-label"><input type="radio" name="b2_q4" value="0"> D. Mahkota Mutiara Hitam</label>
+      </div>
+
+      <div class="question-card">
+        <p>5. Penyebab perisai sihir istana meleleh dan rusak adalah...</p>
+        <label class="option-label"><input type="radio" name="b2_q5" value="1"> A. Semburan api hijau dari mulut Leviathan Purba</label>
+        <label class="option-label"><input type="radio" name="b2_q5" value="0"> B. Tabrakan kapal laut besar</label>
+        <label class="option-label"><input type="radio" name="b2_q5" value="0"> C. Buangan racun limbah pabrik</label>
+        <label class="option-label"><input type="radio" name="b2_q5" value="0"> D. Semburan lahar gunung meletus</label>
+      </div>
+
+      <div class="question-card">
+        <p>6. Bagian <strong>Komplikasi (Puncak Masalah)</strong> cerita ini terjadi pada saat...</p>
+        <label class="option-label"><input type="radio" name="b2_q6" value="0"> A. Rakyat dasar laut hidup damai dan tenang</label>
+        <label class="option-label"><input type="radio" name="b2_q6" value="1"> B. Leviathan Purba merusak perisai dan mengalahkan pengawal</label>
+        <label class="option-label"><input type="radio" name="b2_q6" value="0"> C. Kerajaan Kadatuan Samudra kembali aman</label>
+        <label class="option-label"><input type="radio" name="b2_q6" value="0"> D. Ratu Wijaya berjalan di atas terumbu karang</label>
+      </div>
+
+      <div class="question-card">
+        <p>7. Hewan ajaib yang diciptakan Ratu Wijaya untuk mengalahkan monster adalah...</p>
+        <label class="option-label"><input type="radio" name="b2_q7" value="0"> A. Pasukan jin hitam</label>
+        <label class="option-label"><input type="radio" name="b2_q7" value="1"> B. Sepuluh naga air raksasa dari mutiara</label>
+        <label class="option-label"><input type="radio" name="b2_q7" value="0"> C. Buaya putih berduri mutiara</label>
+        <label class="option-label"><input type="radio" name="b2_q7" value="0"> D. Burung bersayap emas</label>
+      </div>
+
+      <div class="question-card">
+        <p>8. Cara Ratu Wijaya menghentikan ancaman monster purba di akhir cerita adalah...</p>
+        <label class="option-label"><input type="radio" name="b2_q8" value="1"> A. Mengurung kembali monster ke dalam jurang bawah laut</label>
+        <label class="option-label"><input type="radio" name="b2_q8" value="0"> B. Melempar monster ke tahun 3045</label>
+        <label class="option-label"><input type="radio" name="b2_q8" value="0"> C. Mengubah monster menjadi pasir laut</label>
+        <label class="option-label"><input type="radio" name="b2_q8" value="0"> D. Menipu monster dengan suara ayam</label>
+      </div>
+
+      <div class="question-card">
+        <p>9. Kata yang menggambarkan suasana menakutkan pada paragraf 2 adalah...</p>
+        <label class="option-label"><input type="radio" name="b2_q9" value="1"> A. Mendadak rusak & terpental tidak berdaya</label>
+        <label class="option-label"><input type="radio" name="b2_q9" value="0"> B. Berdiri megah & tenang</label>
+        <label class="option-label"><input type="radio" name="b2_q9" value="0"> C. Berjalan damai & hangat</label>
+        <label class="option-label"><input type="radio" name="b2_q9" value="0"> D. Mutiara api & terumbu karang</label>
+      </div>
+
+      <div class="question-card">
+        <p>10. Pesan baik dari perjuangan Ratu Wijaya adalah...</p>
+        <label class="option-label"><input type="radio" name="b2_q10" value="0"> A. Pemimpin harus lari saat ada bahaya datang</label>
+        <label class="option-label"><input type="radio" name="b2_q10" value="1"> B. Ketenangan dan keberanian tidak mudah menyerah bisa mengalahkan masalah besar</label>
+        <label class="option-label"><input type="radio" name="b2_q10" value="0"> C. Pasukan kerajaan tidak ada gunanya sama sekali</label>
+        <label class="option-label"><input type="radio" name="b2_q10" value="0"> D. Monster laut tidak akan pernah bisa dikalahkan</label>
+      </div>
+
+      <button type="button" class="btn-submit" onclick="calculateScore('baris2', keys_b2)">Kirim & Cek Nilai (Baris 2)</button>
+
+      <div class="essay-card">
+        <h4>✍️ Soal Ke-11 (Wajib Ditulis di Buku Tugas):</h4>
+        <p><strong>Soal Uraian Analisis:</strong> Cerita Baris 2 termasuk cerita <em>Fantasi Total</em>. Tuliskan 3 hal ajaib (dari tokoh atau tempatnya) yang membuktikan bahwa cerita tersebut tidak mungkin terjadi di dunia nyata!</p>
+      </div>
+    </form>
+  </div>
+
+  <!-- CONTENT BARIS 3 -->
+  <div id="baris3" class="tab-content">
+    <h2 class="story-title">Baris 3: Rahasia Buaya Putih Sungai Mahakam</h2>
+    <div class="story-text">
+      <p>Di pinggir Sungai Mahakam di Kota Samarinda, Kalimantan Timur, tinggal seorang anak laki-laki bernama Ilham yang punya kelebihan aneh sejak lahir: ia bisa mengerti bahasa hewan-hewan air. Pada suatu sore saat Ilham sedang duduk melamun di dermaga kayu sambil melihat air sungai, tiba-tiba air sungai bergejolak hebat dan memancarkan sinar perak. Dari dalam air, muncullah seekor Buaya Putih raksasa berduri mutiara—penjaga mistis Sungai Mahakam yang selama ini hanya dianggap sebagai cerita mitos oleh warga setempat.</p>
+
+      <p>Buaya Putih itu mendekati dermaga lalu membisikkan pesan rahasia ke dalam pikiran Ilham. Sang buaya memberi tahu bahaya besar: tumpukan limbah racun yang dibuang sembarangan oleh pabrik jahat telah tumbuh menjadi monster "Lumpur Hitam Purba". Monster racun itu merayap di dasar sungai untuk merobohkan tiang Jembatan Mahakam. Buaya Putih menjelaskan bahwa jika jembatan itu sampai roboh, jalanan kota akan macet total dan keselamatan warga Samarinda terancam bahaya.</p>
+
+      <p>Tanpa rasa takut, Ilham langsung melompat ke atas punggung Buaya Putih dan menyelam bersama ke dasar Sungai Mahakam yang pekat. Memakai pusaka Kalung Batu Berau penawar racun milik nenek moyangnya, Ilham mengarahkan sinar kristal hijau ke badan monster lumpur, sementara Buaya Putih memukul monster itu dengan ekornya. Berkat kerja sama mereka, monster lumpur beracun itu berubah kembali menjadi pasir bersih, sehingga Jembatan Mahakam dan sungai kota berhasil diselamatkan.</p>
+    </div>
+
+    <div id="res_baris3" class="result-panel">
+      <h3>Hasil Nilai Baris 3</h3>
+      <div class="result-score" id="score_baris3">0 / 100</div>
+      <p class="result-msg" id="msg_baris3"></p>
+      <button class="btn-retry" onclick="resetForm('baris3')">Coba Lagi</button>
+    </div>
+
+    <form id="form_baris3" class="task-section">
+      <h3 class="task-title">📝 10 Soal Pilihan Ganda Interaktif (Baris 3)</h3>
+
+      <div class="question-card">
+        <p>1. Cerita Baris 3 termasuk jenis <strong>Fantasi Irisan</strong> karena...</p>
+        <label class="option-label"><input type="radio" name="b3_q1" value="1"> A. Menyebutkan tempat nyata (Sungai Mahakam, Samarinda) yang digabung dengan kejadian ajaib</label>
+        <label class="option-label"><input type="radio" name="b3_q1" value="0"> B. Ceritanya terjadi di luar angkasa</label>
+        <label class="option-label"><input type="radio" name="b3_q1" value="0"> C. Semua tokohnya adalah monster tanpa ada manusia</label>
+        <label class="option-label"><input type="radio" name="b3_q1" value="0"> D. Terjadi pada zaman kerajaan abad ke-9</label>
+      </div>
+
+      <div class="question-card">
+        <p>2. Kelebihan ajaib yang dimiliki oleh tokoh Ilham sejak lahir adalah...</p>
+        <label class="option-label"><input type="radio" name="b3_q2" value="0"> A. Bisa terbang melewati dimensi waktu</label>
+        <label class="option-label"><input type="radio" name="b3_q2" value="1"> B. Bisa mengerti bahasa hewan-hewan air</label>
+        <label class="option-label"><input type="radio" name="b3_q2" value="0"> C. Bisa meramal masa depan kota Samarinda</label>
+        <label class="option-label"><input type="radio" name="b3_q2" value="0"> D. Kebal terhadap tembakan laser canggih</label>
+      </div>
+
+      <div class="question-card">
+        <p>3. Hewan ajaib penjaga Sungai Mahakam dalam cerita ini berwujud...</p>
+        <label class="option-label"><input type="radio" name="b3_q3" value="0"> A. Naga bersisik biru emas</label>
+        <label class="option-label"><input type="radio" name="b3_q3" value="1"> B. Buaya Putih raksasa berduri mutiara</label>
+        <label class="option-label"><input type="radio" name="b3_q3" value="0"> C. Ikan Mas raksasa berwarna emas</label>
+        <label class="option-label"><input type="radio" name="b3_q3" value="0"> D. Jin jahat berikat kepala</label>
+      </div>
+
+      <div class="question-card">
+        <p>4. Penyebab utama munculnya monster "Lumpur Hitam Purba" adalah...</p>
+        <label class="option-label"><input type="radio" name="b3_q4" value="1"> A. Pembuangan limbah beracun secara sembarangan oleh pabrik</label>
+        <label class="option-label"><input type="radio" name="b3_q4" value="0"> B. Bacaan mantra Bandung Bondowoso</label>
+        <label class="option-label"><input type="radio" name="b3_q4" value="0"> C. Semburan lahar gunung meletus</label>
+        <label class="option-label"><input type="radio" name="b3_q4" value="0"> D. Ledakan alat laboratorium 3045</label>
+      </div>
+
+      <div class="question-card">
+        <p>5. Kejahatan yang ingin dilakukan oleh monster Lumpur Hitam adalah...</p>
+        <label class="option-label"><input type="radio" name="b3_q5" value="0"> A. Mencuri batu relief kuno</label>
+        <label class="option-label"><input type="radio" name="b3_q5" value="1"> B. Merobohkan tiang Jembatan Mahakam</label>
+        <label class="option-label"><input type="radio" name="b3_q5" value="0"> C. Membakar perisai mutiara dasar laut</label>
+        <label class="option-label"><input type="radio" name="b3_q5" value="0"> D. Menghentikan bus sekolah</label>
+      </div>
+
+      <div class="question-card">
+        <p>6. Benda pusaka milik nenek moyang yang dipakai Ilham untuk membersihkan racun adalah...</p>
+        <label class="option-label"><input type="radio" name="b3_q6" value="1"> A. Kalung Batu Berau</label>
+        <label class="option-label"><input type="radio" name="b3_q6" value="0"> B. Tongkat Karang Sakti</label>
+        <label class="option-label"><input type="radio" name="b3_q6" value="0"> C. Sarung Tua Jerami</label>
+        <label class="option-label"><input type="radio" name="b3_q6" value="0"> D. Senjata Laser Pemindai</label>
+      </div>
+
+      <div class="question-card">
+        <p>7. Bantuan yang diberikan Buaya Putih saat melawan monster di dasar sungai adalah...</p>
+        <label class="option-label"><input type="radio" name="b3_q7" value="0"> A. Menyemburkan api hijau dari mulutnya</label>
+        <label class="option-label"><input type="radio" name="b3_q7" value="1"> B. Memukul dan mengunci pergerakan monster dengan ekornya</label>
+        <label class="option-label"><input type="radio" name="b3_q7" value="0"> C. Membangun seribu candi batu</label>
+        <label class="option-label"><input type="radio" name="b3_q7" value="0"> D. Membuka lorong waktu untuk pulang</label>
+      </div>
+
+      <div class="question-card">
+        <p>8. Akhir dari pertarungan melawan monster racun lumpur tersebut adalah...</p>
+        <label class="option-label"><input type="radio" name="b3_q8" value="1"> A. Monster racun berubah bersih menjadi pasir</label>
+        <label class="option-label"><input type="radio" name="b3_q8" value="0"> B. Jembatan Mahakam roboh ke sungai</label>
+        <label class="option-label"><input type="radio" name="b3_q8" value="0"> C. Buaya putih lari ketakutan</label>
+        <label class="option-label"><input type="radio" name="b3_q8" value="0"> D. Ilham terlempar ke zaman abad ke-9</label>
+      </div>
+
+      <div class="question-card">
+        <p>9. Kata ganti orang ketiga yang banyak digunakan pada cerita tersebut adalah...</p>
+        <label class="option-label"><input type="radio" name="b3_q9" value="0"> A. Aku</label>
+        <label class="option-label"><input type="radio" name="b3_q9" value="1"> B. Ia / Nya</label>
+        <label class="option-label"><input type="radio" name="b3_q9" value="0"> C. Kami</label>
+        <label class="option-label"><input type="radio" name="b3_q9" value="0"> D. Kita</label>
+      </div>
+
+      <div class="question-card">
+        <p>10. Pelajaran penting tentang lingkungan dari cerita Baris 3 adalah...</p>
+        <label class="option-label"><input type="radio" name="b3_q10" value="1"> A. Kita harus menjaga kebersihan sungai dari sampah limbah pabrik demi keselamatan bersama</label>
+        <label class="option-label"><input type="radio" name="b3_q10" value="0"> B. Boleh membuang sampah racun ke sungai</label>
+        <label class="option-label"><input type="radio" name="b3_q10" value="0"> C. Tidak boleh pergi ke jembatan pada sore hari</label>
+        <label class="option-label"><input type="radio" name="b3_q10" value="0"> D. Menangkap buaya putih untuk dijual</label>
+      </div>
+
+      <button type="button" class="btn-submit" onclick="calculateScore('baris3', keys_b3)">Kirim & Cek Nilai (Baris 3)</button>
+
+      <div class="essay-card">
+        <h4>✍️ Soal Ke-11 (Wajib Ditulis di Buku Tugas):</h4>
+        <p><strong>Soal Uraian Analisis:</strong> Pada cerita Baris 3, masalah kebersihan lingkungan apa di dunia nyata yang diubah pengarang menjadi wujud monster? Tuliskan nasihat moral yang ingin disampaikan pengarang kepada pembaca!</p>
+      </div>
+    </form>
+  </div>
+
+  <!-- CONTENT BARIS 4 -->
+  <div id="baris4" class="tab-content">
+    <h2 class="story-title">Baris 4: Kilatan Cahaya di Lembah Toba</h2>
+    <div class="story-text">
+      <p>Pada masa depan tahun 3045, manusia sudah hidup canggih di kota-kota melayang yang dibangun di atas Lembah Danau Toba, Sumatera Utara. Aris, seorang teknisi mesin waktu muda yang pintar, sedang memperbaiki alat di laboratorium tua dekat kawah gunung. Tanpa disengaja, alat yang diperbaikinya rusak dan mengeluarkan ledakan listrik yang menyalakan mesin pintu waktu purba. Dalam hitungan detik, tubuh Aris tersedot ke dalam pintu waktu dan terlempar ke zaman purba ratusan ribu tahun yang lalu.</p>
+
+      <p>Aris terjatuh di atas tanah gunung berapi yang bergetar hebat disertai asap hitam tebal. Di depan matanya, Gunung Toba Purba meletus dahsyat sambil menyemburkan lahar panas ke langit. Di tengah letusan itu, muncullah seekor naga emas raksasa penjelmaan dari Penjaga Ikan Mas Raksasa. Sang Penjaga memberikan pilihan sulit kepada Aris: menggunakan tembakan laser canggih milik Aris untuk memadamkan letusan gunung demi menyelamatkan hewan purba, atau membiarkan gunung meletus secara alami supaya cekungan Danau Toba terbentuk di masa depan.</p>
+
+      <p>Aris sempat merasa bingung. Ia sadar betul: jika ia memadamkan letusan gunung dengan alat canggihnya, maka Danau Toba yang indah dan kota melayang di masa depannya tidak akan pernah ada di dunia. Dengan keberanian dan pikiran yang jernih, Aris memilih mematikan alat canggihnya dan membiarkan gunung meletus sesuai aturan alam. Sambil tersenyum senang atas kebaikan Aris, Penjaga Ikan Mas membuka kembali pintu waktu dan membawa Aris pulang dengan selamat ke kota melayang pada tahun 3045.</p>
+    </div>
+
+    <div id="res_baris4" class="result-panel">
+      <h3>Hasil Nilai Baris 4</h3>
+      <div class="result-score" id="score_baris4">0 / 100</div>
+      <p class="result-msg" id="msg_baris4"></p>
+      <button class="btn-retry" onclick="resetForm('baris4')">Coba Lagi</button>
+    </div>
+
+    <form id="form_baris4" class="task-section">
+      <h3 class="task-title">📝 10 Soal Pilihan Ganda Interaktif (Baris 4)</h3>
+
+      <div class="question-card">
+        <p>1. Waktu asal tempat tinggal tokoh Aris sebelum terlempar pintu waktu adalah...</p>
+        <label class="option-label"><input type="radio" name="b4_q1" value="0"> A. Zaman kerajaan abad ke-9</label>
+        <label class="option-label"><input type="radio" name="b4_q1" value="1"> B. Masa depan tahun 3045 di kota melayang</label>
+        <label class="option-label"><input type="radio" name="b4_q1" value="0"> C. Masa sekarang di Samarinda</label>
+        <label class="option-label"><input type="radio" name="b4_q1" value="0"> D. Abad ke-15 di pelabuhan tua</label>
+      </div>
+
+      <div class="question-card">
+        <p>2. Penyebab Aris terlempar ke zaman purba adalah...</p>
+        <label class="option-label"><input type="radio" name="b4_q2" value="1"> A. Alat laboratorium meledak dan menyalakan mesin pintu waktu purba</label>
+        <label class="option-label"><input type="radio" name="b4_q2" value="0"> B. Diserang oleh monster Leviathan</label>
+        <label class="option-label"><input type="radio" name="b4_q2" value="0"> C. Menyentuh ukiran dinding candi</label>
+        <label class="option-label"><input type="radio" name="b4_q2" value="0"> D. Ditelan oleh buaya putih raksasa</label>
+      </div>
+
+      <div class="question-card">
+        <p>3. Berdasarkan waktu kejadiannya, cerita Baris 4 termasuk jenis...</p>
+        <label class="option-label"><input type="radio" name="b4_q3" value="1"> A. Latar Lintas Waktu (Masa Depan 3045 berpindah ke Zaman Purba)</label>
+        <label class="option-label"><input type="radio" name="b4_q3" value="0"> B. Latar Sezaman Masa Lalu saja</label>
+        <label class="option-label"><input type="radio" name="b4_q3" value="0"> C. Latar Sezaman Masa Sekarang saja</label>
+        <label class="option-label"><input type="radio" name="b4_q3" value="0"> D. Latar Tempat Tanpa Waktu</label>
+      </div>
+
+      <div class="question-card">
+        <p>4. Penjaga ajaib yang menemui Aris saat gunung meletus berwujud...</p>
+        <label class="option-label"><input type="radio" name="b4_q4" value="0"> A. Bandung Bondowoso</label>
+        <label class="option-label"><input type="radio" name="b4_q4" value="1"> B. Penjaga Ikan Mas Raksasa berwujud naga emas</label>
+        <label class="option-label"><input type="radio" name="b4_q4" value="0"> C. Ratu Wijaya bersisik biru</label>
+        <label class="option-label"><input type="radio" name="b4_q4" value="0"> D. Monster Lumpur Hitam</label>
+      </div>
+
+      <div class="question-card">
+        <p>5. Pilihan sulit yang dialami Aris di zaman purba adalah...</p>
+        <label class="option-label"><input type="radio" name="b4_q5" value="1"> A. Memadamkan letusan gunung atau membiarkan letusan terjadi agar Danau Toba terbentuk</label>
+        <label class="option-label"><input type="radio" name="b4_q5" value="0"> B. Membuat seribu candi atau lari ke bus sekolah</label>
+        <label class="option-label"><input type="radio" name="b4_q5" value="0"> C. Melawan naga emas atau melawan buaya putih</label>
+        <label class="option-label"><input type="radio" name="b4_q5" value="0"> D. Tinggal di zaman purba atau merusak kota melayang</label>
+      </div>
+
+      <div class="question-card">
+        <p>6. Alasan cerdik Aris mematikan senjata lasernya adalah...</p>
+        <label class="option-label"><input type="radio" name="b4_q6" value="1"> A. Jika gunung tidak meletus, Danau Toba dan kota masa depannya tidak akan pernah ada</label>
+        <label class="option-label"><input type="radio" name="b4_q6" value="0"> B. Senjata lasernya kehabisan baterai</label>
+        <label class="option-label"><input type="radio" name="b4_q6" value="0"> C. Takut dihukum oleh Penjaga Ikan Mas</label>
+        <label class="option-label"><input type="radio" name="b4_q6" value="0"> D. Senjatanya jatuh ke dalam lahar</label>
+      </div>
+
+      <div class="question-card">
+        <p>7. Bagian <strong>Orientasi (Pengenalan Cerita)</strong> pada Baris 4 berada di...</p>
+        <label class="option-label"><input type="radio" name="b4_q7" value="1"> A. Paragraf 1 (Pengenalan tokoh Aris dan kota melayang 3045)</label>
+        <label class="option-label"><input type="radio" name="b4_q7" value="0"> B. Paragraf 2 (Letusan Gunung Toba Purba)</label>
+        <label class="option-label"><input type="radio" name="b4_q7" value="0"> C. Paragraf 3 (Keputusan mematikan alat canggih)</label>
+        <label class="option-label"><input type="radio" name="b4_q7" value="0"> D. Akhir cerita saat pintu waktu terbuka</label>
+      </div>
+
+      <div class="question-card">
+        <p>8. Cara Aris bisa pulang ke kota melayang tahun 3045 di akhir cerita adalah...</p>
+        <label class="option-label"><input type="radio" name="b4_q8" value="0"> A. Menirukan suara ayam jantan</label>
+        <label class="option-label"><input type="radio" name="b4_q8" value="1"> B. Dibukakan pintu waktu oleh Penjaga Ikan Mas Raksasa</label>
+        <label class="option-label"><input type="radio" name="b4_q8" value="0"> C. Menyelam bersama Buaya Putih</label>
+        <label class="option-label"><input type="radio" name="b4_q8" value="0"> D. Pakai Tongkat Karang Sakti</label>
+      </div>
+
+      <div class="question-card">
+        <p>9. Teks Baris 4 termasuk <strong>Fantasi Irisan</strong> karena...</p>
+        <label class="option-label"><input type="radio" name="b4_q9" value="1"> A. Menggunakan nama tempat nyata (Danau Toba, Sumatera Utara) dengan tambahan cerita mesin waktu</label>
+        <label class="option-label"><input type="radio" name="b4_q9" value="0"> B. Ceritanya terjadi di planet lain</label>
+        <label class="option-label"><input type="radio" name="b4_q9" value="0"> C. Tidak ada hubungannya sama sekali dengan dunia nyata</label>
+        <label class="option-label"><input type="radio" name="b4_q9" value="0"> D. Semua tokohnya berupa monster purba</label>
+      </div>
+
+      <div class="question-card">
+        <p>10. Pelajaran baik yang bisa kita contoh dari tindakan Aris adalah...</p>
+        <label class="option-label"><input type="radio" name="b4_q10" value="1"> A. Kadang kita harus mengalah dan membiarkan proses alam terjadi demi kebaikan di masa depan</label>
+        <label class="option-label"><input type="radio" name="b4_q10" value="0"> B. Harus mementingkan diri sendiri di atas segalanya</label>
+        <label class="option-label"><input type="radio" name="b4_q10" value="0"> C. Boleh merusak alam menggunakan teknologi canggih</label>
+        <label class="option-label"><input type="radio" name="b4_q10" value="0"> D. Jangan mau belajar teknologi</label>
+      </div>
+
+      <button type="button" class="btn-submit" onclick="calculateScore('baris4', keys_b4)">Kirim & Cek Nilai (Baris 4)</button>
+
+      <div class="essay-card">
+        <h4>✍️ Soal Ke-11 (Wajib Ditulis di Buku Tugas):</h4>
+        <p><strong>Soal Uraian Analisis:</strong> Jelaskan rasa bingung/dilema yang dialami Aris pada cerita Baris 4! Jika kamu menjadi Aris saat Gunung Toba Purba meletus, apakah kamu akan mengambil keputusan yang sama? Berikan alasanmu!</p>
+      </div>
+    </form>
+  </div>
+
+  <!-- BAGIAN AKHIR: INSTRUKSI PENGERJAAN TUGAS DI BUKU TULIS -->
+  <div class="final-instruction-box">
+    <h3>📌 Petunjuk Pengerjaan Tugas Buku Catatan</h3>
+    <ol>
+      <li>Bacalah 4 contoh cerita fantasi pada tab <strong>Baris 1 sampai Baris 4</strong> di atas.</li>
+      <li>Jawab <strong>10 Soal Pilihan Ganda Interaktif</strong> pada setiap cerita langsung di HP sampai mendapat nilai.</li>
+      <li>Buka <strong>Buku Tugas Bahasa Indonesia</strong> masing-masing, lalu salinlah:
+        <ul style="margin-left: 20px; margin-top: 5px; margin-bottom: 5px;">
+          <li>Judul Cerita & Jenis Ceritanya (Fantasi Total/Irisan & Latar Sezaman/Lintas Waktu) dari Baris 1 s.d. 4.</li>
+          <li>Nilai/Skor yang kamu dapatkan dari HP.</li>
+          <li>Jawaban lengkap dari <strong>Soal Ke-11 (Soal Uraian)</strong> untuk ke-4 cerita di atas.</li>
+        </ul>
+      </li>
+      <li>Kumpulkan Buku Tugas ke meja Guru jika sudah selesai!</li>
+    </ol>
+  </div>
 
   <script>
-    // Plot Detail Data
-    const plotDetails = {
-      orientasi: "<strong>Fase Orientasi:</strong> Bagian pembuka yang berfungsi memperkenalkan identitas tokoh utama, kebiasaannya, serta atmosfer dunia cerita (kondisi normal sebelum keajaiban atau krisis muncul).<br><br><em>Contoh Adegan:</em> 'Di Lembah Aethel, Rian menghabiskan masa mudanya merawat pohon-pohon perak yang daunnya berdesir merdu saat fajar menyingsing.'",
-      pemicu: "<strong>Pemicu Konflik (Inciting Incident):</strong> Peristiwa awal yang merusak kestabilan dunia normal tokoh. Bisa berupa penemuan artefak aneh, gerbang antar-ruang yang terbuka, atau datangnya ancaman misterius.<br><br><em>Contoh Adegan:</em> 'Seekor burung elang bermata api menjatuhkan gulungan perkamen yang menyala biru tepat di atas meja kerja Rian.'",
-      klimaks: "<strong>Puncak Konflik (Klimaks):</strong> Titik didih ketegangan tertinggi dalam cerita di mana tokoh harus berhadapan langsung dengan rintangan utama atau membuat keputusan hidup-mati yang mempertaruhkan nasib dunianya.<br><br><em>Contoh Adegan:</em> 'Ketika sang penguasa kegelapan membekukan seluruh lembah, Rian terpaksa mengorbankan kristal intinya untuk menyalakan kembali jantung perapian bumi.'",
-      peleraian: "<strong>Peleraian (Falling Action):</strong> Ketegangan mulai menurun secara bertahap. Akibat dari keputusan saat klimaks mulai terkuak dan situasi berangsur-angsur terkendali.<br><br><em>Contoh Adegan:</em> 'Kabut hitam perlahan menguap ke udara, memperlihatkan para penduduk lembah yang mulai sadar dari mantra tidur abadi.'",
-      resolusi: "<strong>Resolusi (Penyelesaian):</strong> Akhir cerita yang memaparkan tatanan baru setelah konflik usai. Dapat berakhir membahagiakan (happy ending), tragis (sad ending), atau menggantung rasa penasaran (cliffhanger).<br><br><em>Contoh Adegan:</em> 'Rian kini bukan lagi sekadar perawat pohon, melainkan penjaga gerbang cakrawala yang siap melindungi semesta.'"
-    };
+    const keys_b1 = ["b1_q1", "b1_q2", "b1_q3", "b1_q4", "b1_q5", "b1_q6", "b1_q7", "b1_q8", "b1_q9", "b1_q10"];
+    const keys_b2 = ["b2_q1", "b2_q2", "b2_q3", "b2_q4", "b2_q5", "b2_q6", "b2_q7", "b2_q8", "b2_q9", "b2_q10"];
+    const keys_b3 = ["b3_q1", "b3_q2", "b3_q3", "b3_q4", "b3_q5", "b3_q6", "b3_q7", "b3_q8", "b3_q9", "b3_q10"];
+    const keys_b4 = ["b4_q1", "b4_q2", "b4_q3", "b4_q4", "b4_q5", "b4_q6", "b4_q7", "b4_q8", "b4_q9", "b4_q10"];
 
-    function showPlotDetail(phase, el) {
-      document.querySelectorAll('.plot-step-btn').forEach(b => b.classList.remove('active'));
-      el.classList.add('active');
-      document.getElementById('plot-detail-box').innerHTML = plotDetails[phase];
+    function openTab(evt, tabName) {
+      var tabcontent = document.getElementsByClassName("tab-content");
+      for (var i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+        tabcontent[i].classList.remove("active");
+      }
+
+      var tablinks = document.getElementsByClassName("tab-btn");
+      for (var i = 0; i < tablinks.length; i++) {
+        tablinks[i].classList.remove("active");
+      }
+
+      document.getElementById(tabName).style.display = "block";
+      document.getElementById(tabName).classList.add("active");
+      evt.currentTarget.classList.add("active");
     }
 
-    // Formative Quiz Logic
-    function checkQuiz(element, isCorrect, explanation) {
-      let options = document.querySelectorAll('.quiz-option');
-      options.forEach(opt => {
-        opt.style.pointerEvents = 'none';
+    function calculateScore(barisId, keyList) {
+      let score = 0;
+
+      keyList.forEach(qName => {
+        let selected = document.querySelector(`input[name="${qName}"]:checked`);
+        if (selected && selected.value === "1") {
+          score += 10;
+        }
       });
 
-      let fb = document.getElementById('quiz-feedback');
-      fb.style.display = 'block';
+      let formElem = document.getElementById(`form_${barisId}`);
+      let resPanel = document.getElementById(`res_${barisId}`);
+      let scoreElem = document.getElementById(`score_${barisId}`);
+      let msgElem = document.getElementById(`msg_${barisId}`);
 
-      if (isCorrect) {
-        element.classList.add('correct');
-        fb.style.background = '#dcfce7';
-        fb.style.color = '#15803d';
-        fb.innerHTML = `<strong>Jawaban Tepat!</strong> ${explanation}`;
+      formElem.style.display = "none";
+      resPanel.style.display = "block";
+      scoreElem.innerText = `${score} / 100`;
+
+      if (score >= 80) {
+        msgElem.innerText = "🎉 Hebat Sekali! Kamu sudah paham betul dengan isi cerita fantasi ini!";
+        msgElem.style.color = "#047857";
+      } else if (score >= 60) {
+        msgElem.innerText = "👍 Bagus! Baca lagi ceritanya baik-baik agar nilaimu bisa 100 ya.";
+        msgElem.style.color = "#d97706";
       } else {
-        element.classList.add('incorrect');
-        fb.style.background = '#fee2e2';
-        fb.style.color = '#b91c1c';
-        fb.innerHTML = `<strong>Jawaban Kurang Tepat.</strong> ${explanation}`;
+        msgElem.innerText = "💪 Jangan Menyerah! Coba baca lagi ceritanya dari awal lalu klik Coba Lagi.";
+        msgElem.style.color = "#dc2626";
       }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Export LKPD 3 to .TXT File
-    function downloadLKPD3() {
-      let name = document.getElementById('student-name').value;
-      let sClass = document.getElementById('student-class').value;
-      let type1 = document.getElementById('fantasy-type1').value;
-      let type2 = document.getElementById('fantasy-type2').value;
-      let ori = document.getElementById('task-ori').value;
-      let komp = document.getElementById('task-komp').value;
-      let res = document.getElementById('task-res').value;
-
-      if (!name || !sClass) {
-        alert('Mohon lengkapi Nama dan Kelas terlebih dahulu!');
-        return;
-      }
-
-      let content = `========================================================\n` +
-                    `LEMBAR KERJA PESERTA DIDIK (LKPD 3) - ALUR & TIPOLOGI FANTASI\n` +
-                    `Mata Pelajaran : Bahasa Indonesia Kelas 7\n` +
-                    `Kurikulum      : Kurikulum Merdeka (Deep Learning)\n` +
-                    `========================================================\n\n` +
-                    `Nama Siswa : ${name}\n` +
-                    `Kelas/Absen: ${sClass}\n` +
-                    `Tanggal    : ${new Date().toLocaleDateString('id-ID')}\n` +
-                    `Tipologi   : ${type1} | ${type2}\n\n` +
-                    `--------------------------------------------------------\n` +
-                    `1. TAHAP ORIENTASI (PENGENALAN DUNIA & TOKOH)\n` +
-                    `--------------------------------------------------------\n` +
-                    `${ori || '(Belum diisi)'}\n\n` +
-                    `--------------------------------------------------------\n` +
-                    `2. TAHAP KOMPLIKASI (PEMICU & PUNCAK KLIMAKS)\n` +
-                    `--------------------------------------------------------\n` +
-                    `${komp || '(Belum diisi)'}\n\n` +
-                    `--------------------------------------------------------\n` +
-                    `3. TAHAP RESOLUSI (AKHIR & PENYELESAIAN)\n` +
-                    `--------------------------------------------------------\n` +
-                    `${res || '(Belum diisi)'}\n\n` +
-                    `========================================================\n` +
-                    `Status: Peta Struktur Alur Narasi Telah Disusun.\n`;
-
-      let blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
-      let link = document.createElement('a');
-      link.href = URL.createObjectURL(blob);
-      link.download = `LKPD_3_Alur_Fantasi_${name.replace(/\s+/g, '_')}.txt`;
-      link.click();
-      URL.revokeObjectURL(link.href);
+    function resetForm(barisId) {
+      document.getElementById(`form_${barisId}`).reset();
+      document.getElementById(`form_${barisId}`).style.display = "block";
+      document.getElementById(`res_${barisId}`).style.display = "none";
     }
   </script>
+
 </body>
 </html>
