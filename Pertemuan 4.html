@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pertemuan 4: Kaidah Kebahasaan Cerita Fantasi & Show Don't Tell</title>
+  <title>Pertemuan 4: Bikin Cerita Fantasi Lebih Hidup & Nyata</title>
   <style>
     :root {
-      --primary: #9333ea;
+      --primary: #7c3aed;
       --primary-light: #a855f7;
       --accent: #f59e0b;
       --bg: #f8fafc;
@@ -16,50 +16,43 @@
       --border: #cbd5e1;
       --success: #15803d;
       --danger: #b91c1c;
-      --radius: 10px;
+      --radius: 12px;
     }
-
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
       font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     }
-
     body {
       background-color: var(--bg);
       color: var(--text-main);
       line-height: 1.6;
       padding-bottom: 60px;
     }
-
     header {
-      background: linear-gradient(135deg, #6b21a8, #4c1d95);
+      background: linear-gradient(135deg, #6d28d9, #4c1d95);
       color: white;
       padding: 2.5rem 1.5rem;
       text-align: center;
       border-bottom: 4px solid var(--accent);
     }
-
     header h1 {
-      font-size: 1.8rem;
+      font-size: 1.7rem;
       margin-bottom: 0.5rem;
       letter-spacing: -0.5px;
     }
-
     header p {
       font-size: 0.95rem;
       color: #e9d5ff;
       max-width: 750px;
       margin: 0 auto;
     }
-
     .container {
-      max-width: 950px;
+      max-width: 900px;
       margin: 2rem auto;
       padding: 0 1rem;
     }
-
     .card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -68,9 +61,8 @@
       margin-bottom: 1.8rem;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
     }
-
     .card-title {
-      font-size: 1.25rem;
+      font-size: 1.2rem;
       font-weight: 700;
       color: var(--primary);
       margin-bottom: 1rem;
@@ -80,27 +72,22 @@
       border-bottom: 2px solid var(--border);
       padding-bottom: 0.5rem;
     }
-
-    /* Interactive Show Don't Tell Comparison */
     .grid-2 {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1rem;
     }
-
     @media (max-width: 650px) {
       .grid-2 {
         grid-template-columns: 1fr;
       }
     }
-
     .box-tell {
       background: #fee2e2;
       border: 1px solid #fca5a5;
       border-radius: 8px;
       padding: 1rem;
     }
-
     .box-tell h4 {
       color: #991b1b;
       margin-bottom: 0.5rem;
@@ -108,14 +95,12 @@
       align-items: center;
       gap: 0.4rem;
     }
-
     .box-show {
       background: #dcfce7;
       border: 1px solid #86efac;
       border-radius: 8px;
       padding: 1rem;
     }
-
     .box-show h4 {
       color: #166534;
       margin-bottom: 0.5rem;
@@ -123,15 +108,12 @@
       align-items: center;
       gap: 0.4rem;
     }
-
-    /* Sensory Filters */
     .sense-btn-group {
       display: flex;
       gap: 0.5rem;
       margin-bottom: 1rem;
       flex-wrap: wrap;
     }
-
     .sense-btn {
       background: #f1f5f9;
       border: 1px solid var(--border);
@@ -143,45 +125,29 @@
       color: var(--text-muted);
       transition: all 0.2s;
     }
-
     .sense-btn.active {
       background: var(--primary);
       color: white;
       border-color: var(--primary);
     }
-
-    .sense-display {
-      background: #faf5ff;
-      border-left: 4px solid var(--primary);
-      padding: 1rem;
-      border-radius: 6px;
-      font-size: 0.95rem;
-    }
-
-    /* Table */
     .table-responsive {
       overflow-x: auto;
     }
-
     table {
       width: 100%;
       border-collapse: collapse;
       margin: 1rem 0;
       font-size: 0.95rem;
     }
-
     th, td {
       border: 1px solid var(--border);
       padding: 0.75rem 1rem;
       text-align: left;
     }
-
     th {
       background-color: #f1f5f9;
       color: var(--primary);
     }
-
-    /* Form Components */
     textarea, input[type="text"], select {
       width: 100%;
       padding: 0.7rem;
@@ -191,13 +157,11 @@
       margin-bottom: 0.8rem;
       font-size: 0.95rem;
     }
-
     textarea:focus, input[type="text"]:focus, select:focus {
       outline: none;
       border-color: var(--primary-light);
       box-shadow: 0 0 0 3px rgba(168, 85, 247, 0.15);
     }
-
     .btn {
       background: var(--primary);
       color: white;
@@ -209,20 +173,15 @@
       cursor: pointer;
       transition: background 0.2s;
     }
-
     .btn:hover {
-      background: #7e22ce;
+      background: #6d28d9;
     }
-
     .btn-secondary {
+      background: #64748b;
+    }
+    .btn-secondary:hover {
       background: #475569;
     }
-
-    .btn-secondary:hover {
-      background: #334155;
-    }
-
-    /* Quiz Component */
     .quiz-option {
       display: block;
       background: white;
@@ -233,25 +192,21 @@
       cursor: pointer;
       transition: all 0.2s;
     }
-
     .quiz-option:hover {
       border-color: var(--primary-light);
       background: #faf5ff;
     }
-
     .quiz-option.correct {
       background: #dcfce7;
       border-color: var(--success);
       color: var(--success);
       font-weight: bold;
     }
-
     .quiz-option.incorrect {
       background: #fee2e2;
       border-color: var(--danger);
       color: var(--danger);
     }
-
     .feedback-box {
       margin-top: 0.8rem;
       padding: 0.8rem;
@@ -264,78 +219,78 @@
 <body>
 
   <header>
-    <h1>Modul Interaktif: Pertemuan 4</h1>
-    <p>Mengasah Piranti Bahasa Naratif: Deskripsi Pancaindra, Konjungsi Kronologis, & Kaidah Dialog</p>
+    <h1>Modul Pembelajaran: Pertemuan 4</h1>
+    <p>Cara Bikin Cerita Lebih Hidup: Melukis Suasana Lewat Pancaindra & Percakapan Tokoh</p>
   </header>
 
   <main class="container">
-
-    <!-- Section 1: Show, Don't Tell Laboratory -->
+    
+    <!-- Bagian 1: Menunjukkan, Bukan Cuma Memberitahu -->
     <section class="card">
       <div class="card-title">
-        <span>👁️</span> 1. Laboratorium Gaya Penulisan: "Show, Don't Tell"
+        <span>👁️</span> 1. Rahasia Penulis Keren: "Tunjukkan, Jangan Cuma Beri Tahu"
       </div>
       <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1rem;">
-        Penulis cerita fantasi yang mahir tidak sekadar <em>memberitahu</em> kondisi secara hambar (<strong>Telling</strong>), melainkan <em>menunjukkan</em> kondisi tersebut melalui detail tindakan, fisik, dan reaksi pancaindra (<strong>Showing</strong>).
+        Penulis hebat tidak cuma bilang tokohnya takut atau marah. Mereka <strong>mengajak pembaca ikut melihat, mendengar, dan merasakan</strong> apa yang dialami tokoh lewat gerak tubuh dan pancaindra.
       </p>
 
       <div class="sense-btn-group">
-        <button class="sense-btn active" onclick="switchSense('takut', this)">Karakter Ketakutan</button>
-        <button class="sense-btn" onclick="switchSense('marah', this)">Karakter Marah / Sihir</button>
-        <button class="sense-btn" onclick="switchSense('dingin', this)">Latar Tempat Angker & Dingin</button>
-        <button class="sense-btn" onclick="switchSense('senang', this)">Menemukan Pusaka Ajaib</button>
+        <button class="sense-btn active" onclick="switchSense('takut', this)">Saat Tokoh Ketakutan</button>
+        <button class="sense-btn" onclick="switchSense('marah', this)">Saat Tokoh Marah Besar</button>
+        <button class="sense-btn" onclick="switchSense('dingin', this)">Suasana Tempat Dingin & Angker</button>
+        <button class="sense-btn" onclick="switchSense('senang', this)">Saat Menemukan Benda Ajaib</button>
       </div>
 
       <div class="grid-2">
         <div class="box-tell">
-          <h4><span>❌</span> Pola Datar (Telling)</h4>
+          <h4><span>❌</span> Kalimat Biasa (Cuma Beri Tahu)</h4>
           <p id="tell-content" style="font-size: 0.9rem; color: #7f1d1d;">
             "Arga merasa sangat ketakutan saat melihat raksasa bayangan itu mendekatinya."
           </p>
         </div>
         <div class="box-show">
-          <h4><span>✅</span> Pola Hidup (Showing)</h4>
+          <h4><span>✅</span> Kalimat Hidup (Bikin Terbayang Nyata)</h4>
           <p id="show-content" style="font-size: 0.9rem; color: #14532d;">
-            "Jantung Arga berdegup kencang membentur tulang rusuknya. Kakinya memaku kaku di atas tanah basah, sementara butiran keringat dingin merembes deras membasahi pelipisnya saat bayangan setinggi menara itu menatapnya dengan pupil berpendar merah."
+            "Jantung Arga berdegup kencang membentur tulang rusuknya. Kakinya kaku di atas tanah basah, sementara keringat dingin mengucur di pelipisnya saat bayangan setinggi pohon kelapa itu menatapnya tajam dengan mata merah menyala."
           </p>
         </div>
       </div>
     </section>
 
-    <!-- Section 2: Conjunctions & Punctuation Rules -->
+    <!-- Bagian 2: Tanda Baca & Kata Penghubung -->
     <section class="card">
       <div class="card-title">
-        <span>⚙️</span> 2. Tata Bahasa & Kaidah Dialog Langsung
+        <span>⚙️</span> 2. Aturan Menulis Kalimat Percakapan & Waktu
       </div>
       
       <div class="table-responsive">
         <table>
           <thead>
             <tr>
-              <th>Fitur Bahasa</th>
-              <th>Fungsi Naratif</th>
-              <th>Contoh Penerapan Benar</th>
+              <th style="width: 25%;">Bahan Cerita</th>
+              <th style="width: 35%;">Kegunaan</th>
+              <th style="width: 40%;">Contoh Penulisan yang Benar</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td><strong>Konjungsi Urutan Waktu</strong></td>
-              <td>Menyusun kronologi peralihan peristiwa secara runtut.</td>
-              <td><em>Setelah itu</em>, <em>beberapa saat kemudian</em>, <em>sebelum mentari terbenam</em>.</td>
+              <td><strong>Kata Hubung Waktu</strong></td>
+              <td>Menyambung urutan kejadian agar cerita runtut.</td>
+              <td><em>Setelah itu</em>, <em>beberapa saat kemudian</em>, <em>sebelum matahari tenggelam</em>.</td>
             </tr>
             <tr>
-              <td><strong>Penanda Kejutan / Eskalasi</strong></td>
-              <td>Menciptakan efek dramatik dan kejutan secara tiba-tiba.</td>
-              <td><em>Tiba-tiba</em>, <em>tanpa diduga</em>, <em>seketika itu juga</em> langit membelah dua.</td>
+              <td><strong>Kata Kejadian Tiba-Tiba</strong></td>
+              <td>Membuat pembaca kaget dan suasana jadi tegang.</td>
+              <td><em>Tiba-tiba</em>, <em>tanpa diduga</em>, <em>seketika itu juga</em> langit terbelah dua.</td>
             </tr>
             <tr>
-              <td><strong>Tanda Petik Dialog ("...")</strong></td>
-              <td>Menuliskan percakapan langsung dengan tanda baca di dalam petik.</td>
-              <td>"Pegang erat kristal ini!" teriak Mira serak.</td>
+              <td><strong>Tanda Petik Percakapan ("...")</strong></td>
+              <td>Menulis ucapan langsung tokoh. Tanda baca ditaruh <strong>di dalam</strong> petik.</td>
+              <td>"Pegang erat kristal ini!" teriak Mira dengan suara parau.</td>
             </tr>
             <tr>
-              <td><strong>Kata Sandang Khusus</strong></td>
-              <td>Memberikan julukan khas entitas atau kekuatan legenda.</td>
+              <td><strong>Kata Panggilan Khusus</strong></td>
+              <td>Memberi julukan tokoh istimewa atau hewan ajaib.</td>
               <td><strong>Sang</strong> Penguasa Bayangan, <strong>Si</strong> Kancil Bersayap Emas.</td>
             </tr>
           </tbody>
@@ -343,75 +298,84 @@
       </div>
     </section>
 
-    <!-- Section 3: Critical Thinking Grammar Quiz -->
+    <!-- Bagian 3: Kuis Singkat Percakapan -->
     <section class="card">
       <div class="card-title">
-        <span>🎯</span> 3. Uji Penalaran Kaidah Kebahasaan
+        <span>🎯</span> 3. Cek Pemahaman: Menulis Tanda Petik yang Benar
       </div>
       <div id="quiz-container">
         <p id="quiz-question" style="font-weight: 600; margin-bottom: 1rem;">
-          Manakah penulisan kalimat langsung dialog berikut yang <strong>paling tepat</strong> sesuai kaidah ejaan bahasa Indonesia?
+          Manakah cara menulis percakapan tokoh di bawah ini yang <strong>paling tepat</strong>?
         </p>
+        
         <div id="quiz-options">
-          <div class="quiz-option" onclick="checkQuiz(this, false, 'Salah. Tanda koma harus diletakkan sebelum tanda petik penutup, dan kata pengiring tidak diawali huruf kapital kecuali nama diri.')">
+          <div class="quiz-option" onclick="checkQuiz(this, false, 'Kurang tepat. Setelah tanda petik, kata keterangan tidak perlu diawali huruf besar jika bukan nama orang.')">
             A. "Jangan melangkah lebih jauh" Ujar penjaga gerbang dengan mata membara.
           </div>
-          <div class="quiz-option" onclick="checkQuiz(this, true, 'Tepat sekali! Tanda seru berada di dalam tanda petik, dan kata pengiring diawali huruf kecil.')">
+          <div class="quiz-option" onclick="checkQuiz(this, true, 'Hebat, betul sekali! Tanda seru ditaruh di dalam tanda petik, lalu kata lanjutannya memakai huruf kecil.')">
             B. "Jangan melangkah lebih jauh!" seru sang penjaga gerbang dengan mata membara.
           </div>
-          <div class="quiz-option" onclick="checkQuiz(this, false, 'Salah. Tanda seru diletakkan di luar tanda petik.')">
+          <div class="quiz-option" onclick="checkQuiz(this, false, 'Kurang tepat. Tanda serunya jangan ditaruh di luar tanda petik.')">
             C. "Jangan melangkah lebih jauh"! seru sang penjaga gerbang dengan mata membara.
           </div>
-          <div class="quiz-option" onclick="checkQuiz(this, false, 'Salah. Huruf pertama kata pengiring dialog tidak boleh huruf kapital jika berupa kalimat dialog pengiring biasa.')">
+          <div class="quiz-option" onclick="checkQuiz(this, false, 'Kurang tepat. Huruf awal kata keterangan tidak boleh huruf kapital.')">
             D. "Jangan melangkah lebih jauh," Kata sang penjaga gerbang.
           </div>
         </div>
+
         <div id="quiz-feedback" class="feedback-box"></div>
       </div>
     </section>
 
-    <!-- Section 4: LKPD 4 - Eksplorasi Kebahasaan Terstruktur -->
+    <!-- Bagian 4: Lembar Latihan Siswa -->
     <section class="card">
       <div class="card-title">
-        <span>📝</span> 4. Lembar Kerja Peserta Didik (LKPD 4: Piranti Bahasa)
+        <span>📝</span> 4. Lembar Latihan Menulis (LKPD Pertemuan 4)
       </div>
       <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1rem;">
-        Asah kemampuan deskriptifmu dengan mengubah kalimat datar menjadi adegan narasi hidup, serta susun dialog langsung fantasi.
+        Yuk, latih keahlianmu merangkai kata agar ceritamu asyik dibaca oleh teman-teman dan gurumu!
       </p>
 
       <form id="lkpd4-form">
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
           <div>
             <label for="student-name" style="font-weight: bold; font-size: 0.85rem;">Nama Siswa:</label>
-            <input type="text" id="student-name" placeholder="Nama lengkap..." required>
+            <input type="text" id="student-name" placeholder="Tulis nama lengkapmu..." required>
           </div>
           <div>
-            <label for="student-class" style="font-weight: bold; font-size: 0.85rem;">Kelas / No. Presensi:</label>
+            <label for="student-class" style="font-weight: bold; font-size: 0.85rem;">Kelas & Nomor Absen:</label>
             <input type="text" id="student-class" placeholder="Contoh: 7-D / 15" required>
           </div>
         </div>
 
         <label for="task-show" style="font-weight: bold; font-size: 0.9rem; margin-top: 0.5rem; display: block;">
-          1. Transformasi "Show, Don't Tell":
+          Tantangan 1: Bikin Kalimat Ini Jadi Nyata Terbayang!
         </label>
-        <small style="color: var(--text-muted);">Ubah kalimat datar ini: <em>"Hutan itu sangat gelap dan menyeramkan bagi siapa pun yang memasukinya."</em> menjadi 2-3 kalimat deskriptif pancaindra (suara ranting, bau lumut basah, ketebalan kabut, dll.)!</small>
-        <textarea id="task-show" rows="3" placeholder="Tuliskan deskripsi Showing di sini..."></textarea>
+        <small style="color: var(--text-muted);">
+          Ubah kalimat biasa ini: <em>"Hutan itu sangat gelap dan menyeramkan bagi siapa pun yang memasukinya."</em><br>
+          Jadikan 2-3 kalimat yang menggambarkan apa yang dilihat, didengar, atau dirasakan (misal: suara ranting patah, kabut tebal, bau tanah basah)!
+        </small>
+        <textarea id="task-show" rows="3" placeholder="Tulis kalimat gambaranmu di sini..."></textarea>
 
         <label for="task-dialog" style="font-weight: bold; font-size: 0.9rem; margin-top: 0.5rem; display: block;">
-          2. Cipta Percakapan Langsung Bertegangan Tinggi:
+          Tantangan 2: Menulis Percakapan Seru Antartokoh
         </label>
-        <small style="color: var(--text-muted);">Susun 2 baris dialog langsung antara tokoh pahlawan dan musuh menggunakan tanda petik dan tanda baca dialog yang benar!</small>
-        <textarea id="task-dialog" rows="3" placeholder='Contoh:&#10;"Serahkan peta bintang itu sekarang juga!" gertak sosok bertopeng.&#10;"Langkahi dulu mayatku," balas Rian seraya menghunus pedang cahayanya.'></textarea>
+        <small style="color: var(--text-muted);">
+          Buat 2 baris percakapan antara pahlawan dan musuh menggunakan tanda petik ("...") dan tanda baca yang benar!
+        </small>
+        <textarea id="task-dialog" rows="3" placeholder='Contoh:&#10;"Serahkan batu kristal itu sekarang juga!" gertak sosok berjubah hitam.&#10;"Jangan harap kamu bisa memilikinya," balas Danu seraya bersiap melompat.'></textarea>
 
         <label for="task-conj" style="font-weight: bold; font-size: 0.9rem; margin-top: 0.5rem; display: block;">
-          3. Penggunaan Konjungsi Penanda Kejutan:
+          Tantangan 3: Bikin Suasana Kaget (Kejadian Tiba-Tiba)
         </label>
-        <small style="color: var(--text-muted);">Tuliskan 1 paragraf pendek (2-3 kalimat) yang memuat kata penanda peristiwa tiba-tiba/kejutan (*tiba-tiba / seketika itu juga / tanpa disangka*)!</small>
-        <textarea id="task-conj" rows="3" placeholder="Tuliskan di sini..."></textarea>
+        <small style="color: var(--text-muted);">
+          Tulis 1 paragraf pendek (2-3 kalimat) yang memakai kata kejutan seperti <em>tiba-tiba</em>, <em>tanpa diduga</em>, atau <em>seketika itu juga</em>!
+        </small>
+        <textarea id="task-conj" rows="3" placeholder="Tulis ceritamu di sini..."></textarea>
 
         <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
-          <button type="button" class="btn" onclick="downloadLKPD4()">📥 Unduh Lembar Kerja (.TXT)</button>
-          <button type="reset" class="btn btn-secondary">🔄 Reset</button>
+          <button type="button" class="btn" onclick="downloadLKPD4()">📥 Simpan Hasil Latihan (.TXT)</button>
+          <button type="reset" class="btn btn-secondary">🔄 Ulangi dari Awal</button>
         </div>
       </form>
     </section>
@@ -419,23 +383,23 @@
   </main>
 
   <script>
-    // Show Don't Tell Dataset
+    // Data contoh kalimat
     const senseData = {
       takut: {
         tell: '"Arga merasa sangat ketakutan saat melihat raksasa bayangan itu mendekatinya."',
-        show: '"Jantung Arga berdegup kencang membentur tulang rusuknya. Kakinya memaku kaku di atas tanah basah, sementara butiran keringat dingin merembes deras membasahi pelipisnya saat bayangan setinggi menara itu menatapnya dengan pupil berpendar merah."'
+        show: '"Jantung Arga berdegup kencang membentur tulang rusuknya. Kakinya kaku di atas tanah basah, sementara keringat dingin mengucur di pelipisnya saat bayangan setinggi pohon kelapa itu menatapnya tajam dengan mata merah menyala."'
       },
       marah: {
         tell: '"Penyihir itu sangat marah karena mantra sucinya telah diganggu oleh musuh."',
-        show: '"Rahang sang penyihir mengeras hingga urat-urat di lehernya menegang. Udara di sekeliling jemarinya mendadak berdesir panas, memercikkan bunga api ungu ke lantai batu yang langsung retak terpanggang energi magisnya."'
+        show: '"Rahang penyihir itu mengeras rapat. Udara di ujung jemarinya mendadak mendidih panas, menyemburkan kilatan api ungu ke lantai batu yang seketika retak hangus terbakar."'
       },
       dingin: {
         tell: '"Gua kristal es itu suasananya sangat dingin dan sunyi."',
-        show: '"Napas Arga mengembun menjadi kepulan asap putih tebal setiap kali ia menghela udara. Dinding es memantulkan gemeretak tetesan air beku yang memecah keheningan sunyi, menusuk kulitnya laksana ribuan jarum tipis."'
+        show: '"Napas Arga berubah jadi kabut asap putih tiap kali ia mengembuskan udara. Tetesan air yang membeku di dinding es bergemeretak lirih memecah kesunyian, menusuk kulitnya seperti ribuan jarum tipis."'
       },
       senang: {
         tell: '"Rani merasa sangat gembira setelah berhasil menemukan kotak ajaib peninggalan kakeknya."',
-        show: '"Mata Rani membulat cerah saat jemarinya menyentuh ukiran emas yang hangat. Senyum lebar tak terbendung merekah di wajahnya, diiringi helaan napas lega yang meruntuhkan segala keletihan petualangannya."'
+        show: '"Mata Rani berbinar seketika saat telapak tangannya menyentuh ukiran emas peti tua itu. Senyum lebar tak terbendung merekah di wajahnya, diiringi helaan napas lega yang menghapus seluruh rasa lelahnya."'
       }
     };
 
@@ -446,7 +410,7 @@
       document.getElementById('show-content').innerText = senseData[key].show;
     }
 
-    // Formative Quiz Logic
+    // Logika Kuis
     function checkQuiz(element, isCorrect, explanation) {
       let options = document.querySelectorAll('.quiz-option');
       options.forEach(opt => {
@@ -469,7 +433,7 @@
       }
     }
 
-    // Export LKPD 4 to .TXT File
+    // Unduh File Catatan Siswa
     function downloadLKPD4() {
       let name = document.getElementById('student-name').value;
       let sClass = document.getElementById('student-class').value;
@@ -478,37 +442,36 @@
       let conj = document.getElementById('task-conj').value;
 
       if (!name || !sClass) {
-        alert('Mohon lengkapi Nama dan Kelas terlebih dahulu!');
+        alert('Tolong isi Nama dan Kelas terlebih dahulu ya!');
         return;
       }
 
       let content = `========================================================\n` +
-                    `LEMBAR KERJA PESERTA DIDIK (LKPD 4) - KEBAHASAAN FANTASI\n` +
+                    `LEMBAR LATIHAN SISWA (LKPD 4) - MEMPERINDAH CERITA FANTASI\n` +
                     `Mata Pelajaran : Bahasa Indonesia Kelas 7\n` +
-                    `Kurikulum      : Kurikulum Merdeka (Deep Learning)\n` +
                     `========================================================\n\n` +
-                    `Nama Siswa : ${name}\n` +
-                    `Kelas/Absen: ${sClass}\n` +
-                    `Tanggal    : ${new Date().toLocaleDateString('id-ID')}\n\n` +
+                    `Nama Siswa  : ${name}\n` +
+                    `Kelas/Absen : ${sClass}\n` +
+                    `Tanggal     : ${new Date().toLocaleDateString('id-ID')}\n\n` +
                     `--------------------------------------------------------\n` +
-                    `1. TRANSFORMASI "SHOW, DON'T TELL"\n` +
+                    `TANTANGAN 1: BIKIN KALIMAT LEBIH HIDUP (SHOWING)\n` +
                     `--------------------------------------------------------\n` +
                     `${show || '(Belum diisi)'}\n\n` +
                     `--------------------------------------------------------\n` +
-                    `2. DIALOG LANGSUNG BERTEGANGAN TINGGI (PUEBI)\n` +
+                    `TANTANGAN 2: MENULIS PERCAKAPAN TOKOH\n` +
                     `--------------------------------------------------------\n` +
                     `${dialog || '(Belum diisi)'}\n\n` +
                     `--------------------------------------------------------\n` +
-                    `3. PARAGRAF KONJUNGSI URUTAN WAKTU & KEJUTAN\n` +
+                    `TANTANGAN 3: PARAGRAF KEJADIAN TIBA-TIBA\n` +
                     `--------------------------------------------------------\n` +
                     `${conj || '(Belum diisi)'}\n\n` +
                     `========================================================\n` +
-                    `Status: Latihan Kebahasaan Deskriptif Selesai Dikerjakan.\n`;
+                    `Status: Latihan Berhasil Disimpan.\n`;
 
       let blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
       let link = document.createElement('a');
       link.href = URL.createObjectURL(blob);
-      link.download = `LKPD_4_Kebahasaan_Fantasi_${name.replace(/\s+/g, '_')}.txt`;
+      link.download = `Latihan_Pertemuan4_${name.replace(/\s+/g, '_')}.txt`;
       link.click();
       URL.revokeObjectURL(link.href);
     }
