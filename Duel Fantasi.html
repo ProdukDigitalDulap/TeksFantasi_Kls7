@@ -1,0 +1,1782 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arena Duel Kelompok: Teks Cerita Fantasi Kelas 7 - SMPN 28 Bandung</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800;900&display=swap');
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .custom-scrollbar::-webkit-scrollbar { width: 6px; height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 6px; }
+    .bracket-container { display: flex; gap: 1.5rem; overflow-x: auto; padding: 0.5rem; align-items: stretch; }
+    .bracket-round { display: flex; flex-direction: column; justify-content: space-around; min-width: 270px; }
+    .bracket-match { background: #1e293b; border: 1px solid #334155; border-radius: 0.85rem; padding: 0.6rem; margin: 0.4rem 0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.4); position: relative; }
+    .bracket-team { display: flex; justify-content: space-between; align-items: center; padding: 0.4rem 0.6rem; font-size: 0.85rem; font-weight: 800; border-radius: 0.5rem; }
+    .bracket-team.winner { background-color: #064e3b; color: #34d399; border: 1px solid #059669; }
+    .bracket-team.loser { opacity: 0.4; text-decoration: line-through; }
+    
+    @keyframes modalPop {
+      0% { transform: scale(0.6); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+    .animate-pop { animation: modalPop 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 h-screen w-screen overflow-hidden flex flex-col select-none text-sm">
+
+  <!-- POP-UP WINNER CONFETTI UNTUK SPIN SISWA -->
+  <div id="winnerModal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-gradient-to-b from-slate-900 via-slate-900 to-indigo-950 border-2 border-indigo-400 rounded-3xl p-6 max-w-md w-full text-center shadow-2xl animate-pop relative overflow-hidden">
+      <div class="w-16 h-16 bg-indigo-500/20 text-indigo-400 border border-indigo-400/40 rounded-2xl flex items-center justify-center text-3xl mx-auto mb-3 shadow-lg">
+        <i class="fa-solid fa-wand-magic-sparkles"></i>
+      </div>
+      <span class="text-xs font-black uppercase tracking-widest text-amber-400 bg-amber-950/60 border border-amber-500/40 px-3 py-0.5 rounded-full">PENJELAJAH TERPILIH!</span>
+      <h2 id="winnerStudentName" class="text-3xl font-black text-white my-3 leading-tight">NAMA SISWA</h2>
+      <p class="text-sm text-slate-300 mb-5">Masuk ke kelompok pejuang <b id="winnerGroupName" class="text-indigo-400 font-black text-base">BUNG TOMO</b></p>
+      <button onclick="closeWinnerModal()" class="w-full py-3 bg-gradient-to-r from-indigo-500 to-cyan-600 hover:from-indigo-400 hover:to-cyan-500 text-white font-black text-sm rounded-xl shadow-lg transition active:scale-95 flex items-center justify-center gap-2">
+        <i class="fa-solid fa-check-circle"></i> MASUKKAN KE KELOMPOK
+      </button>
+    </div>
+  </div>
+
+  <!-- POP-UP JUARA UTAMA TURNAMEN KELAS -->
+  <div id="championModal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-gradient-to-b from-amber-950 via-slate-900 to-slate-950 border-2 border-amber-400 rounded-3xl p-6 max-w-md w-full text-center shadow-2xl animate-pop">
+      <div class="w-20 h-20 bg-amber-500/20 text-amber-400 border-2 border-amber-400 rounded-full flex items-center justify-center text-4xl mx-auto mb-3 shadow-xl animate-bounce">
+        <i class="fa-solid fa-crown"></i>
+      </div>
+      <span class="text-xs font-black uppercase tracking-widest text-amber-300 bg-amber-950 border border-amber-500 px-3 py-1 rounded-full">PENGUASA DUNIA FANTASI</span>
+      <h2 id="championGroupName" class="text-3xl font-black text-white my-2">KELOMPOK JUARA</h2>
+      <p class="text-xs text-slate-300 mb-5">Selamat! Kelompok ini sukses memecahkan misteri teks cerita fantasi hingga babak Grand Final!</p>
+      <button onclick="document.getElementById('championModal').classList.add('hidden')" class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-sm rounded-xl shadow-lg transition">
+        TUTUP & LIHAT REKAP
+      </button>
+    </div>
+  </div>
+
+  <!-- HEADER BAR ATAS -->
+  <header class="bg-slate-900 border-b border-slate-800 px-4 py-1.5 flex items-center justify-between flex-shrink-0 z-30 h-12">
+    <div class="flex items-center space-x-3">
+      <div class="w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 via-purple-600 to-pink-500 flex items-center justify-center text-white shadow">
+        <i class="fa-solid fa-dragon text-sm"></i>
+      </div>
+      <div>
+        <h1 class="font-black text-sm sm:text-base tracking-tight text-white leading-tight">DUEL PETUALANGAN CERITA FANTASI KELAS 7</h1>
+        <span class="text-[11px] text-indigo-400 font-bold block">Babak Penyisihan (Konsep Dasar Fantasi) • Semifinal & Final (Analisis Magis HOTS)</span>
+      </div>
+    </div>
+
+    <!-- AUDIO CONTROLS & UTILITIES -->
+    <div class="flex items-center gap-2">
+      <!-- WIDGET BGM PLAYER LOKAL -->
+      <div class="hidden md:flex items-center bg-slate-950 border border-slate-800 rounded-lg px-2.5 py-1 gap-2">
+        <label for="bgmFileInput" class="cursor-pointer text-xs font-bold text-indigo-400 hover:text-indigo-300 flex items-center gap-1.5" title="Unggah musik latar dari laptop">
+          <i class="fa-solid fa-music"></i> <span id="bgmTrackTitle" class="max-w-[100px] truncate">Musik Petualangan</span>
+        </label>
+        <input type="file" id="bgmFileInput" accept="audio/*" class="hidden" onchange="handleAudioUpload(event)">
+        
+        <button id="btnPlayAudio" onclick="toggleBGMPlay()" class="text-slate-400 hover:text-white text-xs disabled:opacity-40" disabled>
+          <i class="fa-solid fa-play"></i>
+        </button>
+
+        <input type="range" id="bgmVolumeSlider" min="0" max="1" step="0.05" value="0.3" oninput="changeBGMVolume(this.value)" class="w-16 accent-indigo-400 h-1 cursor-pointer">
+      </div>
+
+      <!-- FULLSCREEN TOGGLE -->
+      <button onclick="toggleFullScreen()" class="p-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white rounded-lg text-xs" title="Layar Penuh">
+        <i class="fa-solid fa-expand"></i>
+      </button>
+
+      <!-- MENU NAVIGASI TAB -->
+      <nav class="flex space-x-1 font-bold text-xs">
+        <button onclick="setActiveTab('groups')" id="tabBtn-groups" class="tab-btn px-2.5 py-1 rounded-lg bg-indigo-600 text-white flex items-center gap-1">
+          <i class="fa-solid fa-dharmachakra"></i> 1. Siswa
+        </button>
+        <button onclick="setActiveTab('spin')" id="tabBtn-spin" class="tab-btn px-2.5 py-1 rounded-lg text-slate-400 hover:text-white flex items-center gap-1">
+          <i class="fa-solid fa-swords"></i> 2. Antrean
+        </button>
+        <button onclick="setActiveTab('bracket')" id="tabBtn-bracket" class="tab-btn px-2.5 py-1 rounded-lg text-slate-400 hover:text-white flex items-center gap-1">
+          <i class="fa-solid fa-sitemap"></i> 3. Bagan
+        </button>
+        <button onclick="setActiveTab('exam')" id="tabBtn-exam" class="tab-btn px-2.5 py-1 rounded-lg text-slate-400 hover:text-white flex items-center gap-1">
+          <i class="fa-solid fa-gamepad"></i> 4. Duel
+        </button>
+        <button onclick="setActiveTab('recap')" id="tabBtn-recap" class="tab-btn px-2.5 py-1 rounded-lg text-slate-400 hover:text-white flex items-center gap-1">
+          <i class="fa-solid fa-table-list"></i> 5. Rekap
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- KONTEN UTAMA PERSIS LAYAR (ZERO-SCROLL) -->
+  <main class="flex-grow w-full h-[calc(100vh-48px)] overflow-hidden relative p-2.5">
+
+    <!-- TAB 1: SPIN ANGGOTA SISWA KE 8 KELOMPOK -->
+    <section id="tab-groups" class="tab-content block h-full w-full overflow-hidden">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 h-full">
+        <div class="lg:col-span-5 bg-slate-900 rounded-2xl p-3.5 border border-slate-800 flex flex-col justify-between h-full">
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <h2 class="text-xs font-black text-white flex items-center gap-1.5">
+                <i class="fa-solid fa-paste text-indigo-400"></i> Daftar Siswa Hadir (Kelas 7)
+              </h2>
+              <span id="studentCountBadge" class="text-xs font-mono text-indigo-300 bg-indigo-950 px-2 py-0.5 rounded border border-indigo-800">0 Siswa</span>
+            </div>
+            <textarea id="inputRawStudents" rows="2" placeholder="Tempel nama siswa di sini (satu nama per baris)..." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-xs text-white focus:outline-none focus:border-indigo-500 font-mono custom-scrollbar mb-1 resize-none"></textarea>
+          </div>
+
+          <div class="relative flex flex-col items-center justify-center my-auto py-1">
+            <div class="absolute right-0 top-1/2 -translate-y-1/2 z-20 pointer-events-none filter drop-shadow">
+              <div class="w-0 h-0 border-t-[14px] border-t-transparent border-b-[14px] border-b-transparent border-r-[28px] border-r-rose-500 rotate-180"></div>
+            </div>
+            <canvas id="studentWheelCanvas" width="400" height="400" onclick="spinNextStudent()" class="max-h-[38vh] w-auto select-none rounded-full shadow-2xl cursor-pointer transform hover:scale-105 transition-transform border-4 border-slate-800"></canvas>
+            
+            <button onclick="spinNextStudent()" class="absolute inset-auto w-16 h-16 rounded-full bg-slate-950 border-4 border-indigo-400 text-indigo-400 font-black text-xs flex flex-col items-center justify-center shadow-2xl hover:scale-110 active:scale-95 transition z-10 leading-none">
+              <span>PUTAR!</span>
+              <i class="fa-solid fa-arrows-spin text-[11px] mt-0.5"></i>
+            </button>
+          </div>
+
+          <div class="space-y-2">
+            <div class="bg-slate-950 p-2 rounded-xl border border-slate-800 flex justify-between items-center text-xs">
+              <span class="text-slate-400 font-bold">Target Kelompok:</span>
+              <span id="currentTargetGroupLabel" class="font-black text-indigo-400 uppercase text-xs">BUNG TOMO</span>
+            </div>
+            <div class="grid grid-cols-2 gap-2">
+              <button id="btnSpinStudent" onclick="spinNextStudent()" class="py-2.5 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 hover:opacity-90 text-white font-black rounded-xl text-xs flex items-center justify-center gap-1.5 shadow transition">
+                <i class="fa-solid fa-dharmachakra"></i> UNDI SISWA
+              </button>
+              <button onclick="autoSpinAllStudents()" class="py-2.5 bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold rounded-xl text-xs flex items-center justify-center gap-1 border border-slate-700">
+                <i class="fa-solid fa-bolt"></i> Isi Otomatis
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div class="lg:col-span-7 bg-slate-900 rounded-2xl p-3.5 border border-slate-800 flex flex-col h-full overflow-hidden">
+          <div class="flex justify-between items-center pb-2 border-b border-slate-800 flex-shrink-0">
+            <div>
+              <h3 class="text-sm font-black text-white flex items-center gap-2">
+                <i class="fa-solid fa-users-viewfinder text-indigo-400"></i> Distribusi 8 Kelompok Pejuang Fantasi
+              </h3>
+              <p class="text-xs text-slate-400">Pembagian kuota siswa kelas 7 secara adil dan merata otomatis.</p>
+            </div>
+            <button onclick="setActiveTab('bracket')" class="px-3 py-1.5 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:opacity-90 text-white font-black rounded-lg text-xs flex items-center gap-1">
+              Bagan Turnamen <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+          <div id="groupsGridContainer" class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 overflow-y-auto custom-scrollbar my-2 flex-grow pr-0.5"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: ANTREAN PERTANDINGAN -->
+    <section id="tab-spin" class="tab-content hidden h-full w-full">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-3 h-full">
+        <div class="lg:col-span-8 bg-slate-900 rounded-2xl p-5 border border-slate-800 flex flex-col items-center justify-between h-full">
+          <div class="w-full flex items-center justify-between">
+            <div>
+              <h2 class="text-base font-black text-white flex items-center gap-2">
+                <i class="fa-solid fa-swords text-indigo-400"></i> Jadwal Duel Antar-Kelompok
+              </h2>
+              <p class="text-xs text-slate-400">Kelompok pemenang otomatis naik bertanding melawan pemenang match lainnya.</p>
+            </div>
+            <button onclick="startNextScheduledMatch()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-black rounded-xl text-xs flex items-center gap-2 shadow">
+              <i class="fa-solid fa-play"></i> Mainkan Match Selanjutnya
+            </button>
+          </div>
+
+          <div class="my-auto text-center max-w-lg bg-slate-950 p-6 rounded-2xl border border-slate-800">
+            <div class="w-14 h-14 rounded-xl bg-indigo-500/20 text-indigo-400 mx-auto flex items-center justify-center text-3xl mb-3 border border-indigo-500/30">
+              <i class="fa-solid fa-dungeon"></i>
+            </div>
+            <h3 class="text-lg font-black text-white mb-1.5" id="nextMatchTitle">Match Siap Dimainkan</h3>
+            <p class="text-xs text-slate-400 mb-5 leading-relaxed" id="nextMatchDesc">
+              Buka tab <b>Bagan Turnamen</b> untuk melihat status bagan atau klik tombol di bawah untuk langsung duel.
+            </p>
+            <div class="flex justify-center gap-3">
+              <button onclick="setActiveTab('bracket')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white font-bold rounded-xl text-xs border border-slate-700">
+                Buka Bagan
+              </button>
+              <button onclick="startNextScheduledMatch()" class="px-6 py-2.5 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:opacity-90 text-white font-black rounded-xl text-xs shadow">
+                Masuk ke Arena Duel
+              </button>
+            </div>
+          </div>
+
+          <div class="text-xs text-slate-500 italic text-center">
+            * Durasi 3 Menit (180 Detik) per sesi dengan 10 butir soal analisis cerita fantasi.
+          </div>
+        </div>
+
+        <div class="lg:col-span-4 bg-slate-900 rounded-2xl p-4 border border-slate-800 flex flex-col h-full">
+          <div class="pb-2 border-b border-slate-800 flex justify-between items-center">
+            <h3 class="font-black text-white text-xs sm:text-sm">Status Kelompok Pahlawan</h3>
+            <span class="text-xs font-mono font-bold text-slate-400" id="queueGroupRatioLabel">0 / 8 Bertanding</span>
+          </div>
+          <div id="attendanceGroupContainer" class="space-y-2 overflow-y-auto custom-scrollbar my-2 flex-grow pr-0.5"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: BAGAN TURNAMEN -->
+    <section id="tab-bracket" class="tab-content hidden h-full w-full overflow-hidden flex flex-col bg-slate-900 rounded-2xl p-4 border border-slate-800">
+      <div class="flex justify-between items-center pb-2.5 border-b border-slate-800 flex-shrink-0">
+        <div>
+          <h2 class="text-sm sm:text-base font-black text-white flex items-center gap-2">
+            <i class="fa-solid fa-sitemap text-indigo-400"></i> Bagan Turnamen Sistem Gugur (Pemenang vs Pemenang)
+          </h2>
+          <p class="text-xs text-slate-400">Pemenang babak awal melaju ke Semifinal & Final dengan paket soal petualangan HOTS.</p>
+        </div>
+        <div class="flex items-center gap-2">
+          <button onclick="startNextScheduledMatch()" class="px-4 py-2 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:opacity-90 text-white font-black rounded-lg text-xs flex items-center gap-1.5 shadow">
+            <i class="fa-solid fa-play"></i> Mainkan Match Selanjutnya
+          </button>
+          <button onclick="resetTournamentTreeConfirm()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-rose-300 font-bold rounded-lg text-xs flex items-center gap-1 border border-slate-700">
+            <i class="fa-solid fa-rotate"></i> Reset
+          </button>
+        </div>
+      </div>
+
+      <div class="flex-grow overflow-auto custom-scrollbar mt-2">
+        <div id="bracketDisplayArea" class="bracket-container min-w-[900px] h-full"></div>
+      </div>
+    </section>
+
+    <!-- TAB 4: ARENA DUEL (SPLIT DUA KOLOM + FONT BESAR ANTI-SCROLL) -->
+    <section id="tab-exam" class="tab-content hidden h-full w-full overflow-hidden flex flex-col">
+      <div id="examContainerEmpty" class="bg-slate-900 rounded-2xl p-6 text-center border-2 border-dashed border-slate-800 flex flex-col items-center justify-center h-full">
+        <div class="w-16 h-16 rounded-2xl bg-indigo-950 border border-indigo-500/40 text-indigo-400 mx-auto flex items-center justify-center text-3xl mb-3 shadow">
+          <i class="fa-solid fa-stopwatch-20"></i>
+        </div>
+        <h3 class="text-xl font-black text-white">Gerbang Duel Fantasi Belum Terbuka</h3>
+        <p class="text-xs text-slate-400 max-w-md mx-auto mt-1 mb-4 leading-relaxed">
+          Format Pertandingan: <b>Kelompok A (Sudut Biru)</b> 10 Soal (3 Menit). Dilanjutkan <b>Kelompok B (Sudut Merah)</b> 10 Soal (3 Menit).
+        </p>
+        <button onclick="startNextScheduledMatch()" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-black shadow-lg flex items-center gap-1.5">
+          <i class="fa-solid fa-play"></i> Mulai Match Sesuai Bagan
+        </button>
+      </div>
+
+      <div id="examQuestionSection" class="hidden flex-col justify-between h-full w-full gap-2.5 overflow-hidden">
+        
+        <!-- SCOREBOARD BARIS ATAS -->
+        <div class="grid grid-cols-12 gap-3 flex-shrink-0 items-center">
+          <!-- KARTU KELOMPOK A -->
+          <div id="cardGroupA" class="col-span-5 bg-gradient-to-r from-blue-950 via-slate-900 to-slate-900 border border-blue-500/80 rounded-xl px-3.5 py-2 shadow transition-all">
+            <div class="flex items-center justify-between">
+              <div class="truncate max-w-[70%]">
+                <span id="badgeActiveA" class="text-[10px] uppercase font-black px-2 py-0.5 rounded bg-blue-500 text-white">SUDUT BIRU</span>
+                <h3 id="duelNameA" class="text-base font-black text-white truncate leading-tight mt-0.5">Bung Tomo</h3>
+                <span id="turnIndicatorA" class="text-[11px] text-cyan-300 font-bold block truncate">Sedang Menjelajah</span>
+              </div>
+              <div class="text-right">
+                <span class="text-[10px] uppercase font-bold text-slate-400 block">Benar / Raport</span>
+                <span id="scoreDisplayA" class="text-2xl font-black font-mono text-cyan-400 leading-none">0 / 75</span>
+              </div>
+            </div>
+            <div class="mt-1.5 pt-1.5 border-t border-slate-800/80 text-xs text-slate-300 truncate" id="duelMembersA">
+              • Anggota: -
+            </div>
+          </div>
+
+          <!-- TIMER UTAMA -->
+          <div class="col-span-2 flex flex-col items-center justify-center bg-slate-900 border border-slate-800 rounded-xl py-1.5 px-1 text-center shadow">
+            <span id="timerLabel" class="text-[10px] font-black uppercase text-slate-400 tracking-wider block">WAKTU TIM A</span>
+            <div id="duelQuestionTimer" class="text-3xl font-black font-mono text-amber-400 leading-none my-0.5">180s</div>
+            <span id="duelQuestionBadge" class="text-[11px] font-black text-indigo-400">SOAL 1/10</span>
+          </div>
+
+          <!-- KARTU KELOMPOK B -->
+          <div id="cardGroupB" class="col-span-5 bg-gradient-to-l from-rose-950 via-slate-900 to-slate-900 border border-rose-500/40 opacity-70 rounded-xl px-3.5 py-2 shadow transition-all">
+            <div class="flex items-center justify-between">
+              <div class="text-left">
+                <span class="text-[10px] uppercase font-bold text-slate-400 block">Benar / Raport</span>
+                <span id="scoreDisplayB" class="text-2xl font-black font-mono text-rose-400 leading-none">0 / 75</span>
+              </div>
+              <div class="truncate max-w-[70%] text-right">
+                <span id="badgeActiveB" class="text-[10px] uppercase font-black px-2 py-0.5 rounded bg-slate-700 text-slate-300">SUDUT MERAH</span>
+                <h3 id="duelNameB" class="text-base font-black text-white truncate leading-tight mt-0.5">Diponegoro</h3>
+                <span id="turnIndicatorB" class="text-[11px] text-slate-400 font-bold block truncate">Bersiap-siap</span>
+              </div>
+            </div>
+            <div class="mt-1.5 pt-1.5 border-t border-slate-800/80 text-right text-xs text-slate-300 truncate" id="duelMembersB">
+              • Anggota: -
+            </div>
+          </div>
+        </div>
+
+        <!-- MAIN ARENA STAGE (DUA KOLOM SPLIT DINAMIS & UKURAN TEKS BESAR) -->
+        <div id="duelMainStage" class="flex-grow bg-slate-900 border border-slate-800 rounded-2xl p-4 flex flex-col justify-between overflow-hidden relative">
+          
+          <!-- OVERLAY INTERMISSION GILIRAN -->
+          <div id="questionCoverOverlay" class="absolute inset-0 bg-slate-950/95 z-20 flex flex-col items-center justify-center p-6 text-center">
+            <div id="overlayIconBox" class="w-16 h-16 rounded-2xl bg-indigo-600/20 text-indigo-400 flex items-center justify-center text-3xl mb-3 border border-indigo-500/30">
+              <i class="fa-solid fa-scroll"></i>
+            </div>
+            <h3 id="overlayTitle" class="text-2xl font-black text-white mb-1.5">Giliran Kelompok Bung Tomo</h3>
+            <p id="overlayDesc" class="text-sm text-slate-300 max-w-md mb-6 leading-relaxed">
+              Kalian memiliki waktu <b>3 Menit (180 Detik)</b> untuk memecahkan <b>10 Soal Analisis Cerita Fantasi</b>. Diskusikan dengan cepat dan pilih jawaban terbaik!
+            </p>
+            <button id="overlayStartBtn" onclick="startCurrentTeamSession()" class="px-8 py-3.5 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:opacity-90 text-white font-black text-sm rounded-xl shadow-lg flex items-center gap-2 transform active:scale-95 transition">
+              <i class="fa-solid fa-wand-magic-sparkles"></i> MULAI PETUALANGAN (3 MENIT)
+            </button>
+          </div>
+
+          <!-- TOP BAR: BADGE TOPIK & BABAK DENGAN TINGKAT KESULITAN -->
+          <div class="flex items-center justify-between mb-2 flex-shrink-0">
+            <div class="flex items-center gap-2">
+              <span id="currentTeamTurnBadge" class="text-xs font-black px-3 py-1 rounded-md bg-blue-600 text-white uppercase tracking-wider">Giliran: Bung Tomo</span>
+              <span id="currentQuestionTopicBadge" class="text-xs font-black text-indigo-400 uppercase tracking-wider">Unsur Cerita Fantasi</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span id="currentDiffLevelBadge" class="text-xs px-3 py-1 rounded-full font-black bg-emerald-950 text-emerald-300 border border-emerald-700">Tingkat: Dasar / Menengah</span>
+              <span id="currentMatchRoundBadge" class="text-xs px-3 py-1 rounded-full font-bold bg-slate-800 text-amber-300 border border-slate-700">Perempat Final</span>
+            </div>
+          </div>
+
+          <!-- AREA INTI SOAL (SPLIT DUA KOLOM DENGAN TIPOGRAFI BESAR) -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-4 flex-grow overflow-hidden items-stretch">
+            
+            <!-- KOLOM KIRI (7/12): STIMULUS PETIKAN CERITA FANTASI & PERTANYAAN -->
+            <div class="lg:col-span-7 flex flex-col justify-between bg-slate-950/80 border border-slate-800 rounded-2xl p-4 overflow-hidden">
+              <div class="flex flex-col flex-grow justify-start overflow-hidden">
+                <div class="flex items-center gap-2 text-xs font-black text-indigo-400 mb-1.5 flex-shrink-0">
+                  <i class="fa-solid fa-book-sparkles text-xs"></i>
+                  <span id="stimulusTitle">Petikan Cerita Fantasi:</span>
+                </div>
+                <!-- Box Stimulus Paragraf Fantasi -->
+                <div id="stimulusText" class="text-sm sm:text-base text-slate-200 font-semibold leading-relaxed italic bg-slate-900/95 p-4 rounded-xl border border-slate-800 mb-2 overflow-y-auto custom-scrollbar flex-grow max-h-[29vh]">
+                  Petikan teks cerita fantasi akan tampil di sini...
+                </div>
+              </div>
+
+              <!-- Box Pertanyaan Utama -->
+              <div class="bg-gradient-to-r from-slate-900 to-slate-950 border-2 border-indigo-500/40 rounded-xl p-3.5 flex-shrink-0">
+                <span class="text-[10px] font-black text-amber-400 uppercase tracking-wider block mb-1">Pertanyaan Analisis:</span>
+                <p id="duelQuestionText" class="text-base sm:text-lg font-black text-white leading-snug">
+                  Pertanyaan analitis akan tampil di sini...
+                </p>
+              </div>
+            </div>
+
+            <!-- KOLOM KANAN (5/12): 4 OPSI JAWABAN VERTIKAL -->
+            <div class="lg:col-span-5 flex flex-col justify-between overflow-hidden">
+              <div id="duelOptionsGrid" class="flex flex-col justify-between gap-2 h-full"></div>
+            </div>
+
+          </div>
+
+          <!-- KOTAK PENJELASAN KUNCI JAWABAN (COMPACT DI BAWAH) -->
+          <div id="explanationBox" class="hidden bg-emerald-950/90 border border-emerald-500/50 rounded-xl p-2.5 text-emerald-200 text-xs sm:text-sm font-bold flex-shrink-0 mt-2">
+            <i class="fa-solid fa-circle-check text-emerald-400 mr-2"></i>
+            <span id="explanationText">Ulasan kunci jawaban dan analisis fantasi.</span>
+          </div>
+        </div>
+
+        <!-- FOOTER KONTROL SOAL -->
+        <div class="flex-shrink-0 bg-slate-900 border border-slate-800 rounded-xl px-4 py-2 shadow flex justify-between items-center h-11">
+          <div class="text-xs text-slate-400 flex items-center">
+            <i class="fa-solid fa-circle-info text-indigo-400 mr-2 text-sm"></i> Klik salah satu pilihan jawaban (A, B, C, atau D) untuk melanjutkan petualangan!
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="skipCurrentQuestion()" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-bold border border-slate-700 flex items-center gap-1.5">
+              <i class="fa-solid fa-forward"></i> Lewati (0 Poin)
+            </button>
+            <button onclick="pauseResumeTimer()" id="btnPauseTimer" class="px-3.5 py-1.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg text-xs font-bold border border-slate-700 flex items-center gap-1">
+              <i class="fa-solid fa-pause"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: REKAP NILAI -->
+    <section id="tab-recap" class="tab-content hidden h-full w-full overflow-y-auto custom-scrollbar">
+      <div class="bg-slate-900 rounded-2xl p-4 border border-slate-800">
+        <div class="flex justify-between items-center pb-3 border-b border-slate-800">
+          <div>
+            <h2 class="text-base font-black text-white">Rekapitulasi Nilai Turnamen Teks Fantasi Kelas 7 (Skala 10 Soal: 75 - 98)</h2>
+            <p class="text-xs text-slate-400">Rentang Penilaian: Benar 10 = 98, 9 = 95, 8 = 93, 7 = 90, 6 = 88, 5 = 85, 4 = 83, 3 = 80, 2 = 78, 1 = 76, 0 = 75.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="copyRecapTextToClipboard()" class="px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-indigo-300 rounded-lg text-xs font-bold flex items-center gap-1 border border-slate-700">
+              <i class="fa-solid fa-copy"></i> Salin Ringkasan Teks
+            </button>
+            <button onclick="exportRecapToCSV()" class="px-3.5 py-1.5 bg-emerald-600 hover:bg-emerald-500 text-white rounded-lg text-xs font-black flex items-center gap-1">
+              <i class="fa-solid fa-file-excel"></i> Unduh CSV
+            </button>
+          </div>
+        </div>
+        <div class="overflow-x-auto mt-2 border border-slate-800 rounded-xl">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-950 text-slate-400 uppercase font-black border-b border-slate-800 text-[11px]">
+              <tr>
+                <th class="p-3 text-center">No</th>
+                <th class="p-3">Kelompok Pahlawan</th>
+                <th class="p-3">Daftar Anggota</th>
+                <th class="p-3 text-center">Posisi</th>
+                <th class="p-3 text-center">Benar (/10)</th>
+                <th class="p-3 text-center">Sisa Waktu</th>
+                <th class="p-3 text-center">Nilai Raport</th>
+                <th class="p-3 text-center">Status</th>
+                <th class="p-3">Waktu Tampil</th>
+              </tr>
+            </thead>
+            <tbody id="recapTableBody" class="divide-y divide-slate-800 text-slate-300 text-xs"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // ==========================================
+    // AUDIO ENGINE (BGM & WEB AUDIO API SYNTHESIZER SFX)
+    // ==========================================
+    let bgmAudio = new Audio();
+    bgmAudio.loop = true;
+    let isBgmPlaying = false;
+
+    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+    let audioCtx = null;
+
+    function initAudioContext() {
+      if (!audioCtx) audioCtx = new AudioContextClass();
+      if (audioCtx.state === 'suspended') audioCtx.resume();
+    }
+
+    function playTone(freq, type, duration, gainVal = 0.1) {
+      try {
+        initAudioContext();
+        const osc = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+        gainNode.gain.setValueAtTime(gainVal, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + duration);
+        osc.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
+      } catch (e) {
+        console.warn("Audio Context SFX:", e);
+      }
+    }
+
+    function playSfxTick() { playTone(600, 'square', 0.05, 0.05); }
+    function playSfxCorrect() {
+      playTone(523.25, 'sine', 0.15, 0.15);
+      setTimeout(() => playTone(659.25, 'sine', 0.2, 0.15), 100);
+      setTimeout(() => playTone(783.99, 'sine', 0.25, 0.15), 200);
+    }
+    function playSfxWrong() {
+      playTone(220, 'sawtooth', 0.25, 0.15);
+      setTimeout(() => playTone(185, 'sawtooth', 0.3, 0.15), 150);
+    }
+    function playSfxGameOver() {
+      playTone(440, 'triangle', 0.3, 0.2);
+      setTimeout(() => playTone(330, 'triangle', 0.4, 0.2), 200);
+      setTimeout(() => playTone(220, 'triangle', 0.6, 0.2), 400);
+    }
+
+    function handleAudioUpload(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const objectUrl = URL.createObjectURL(file);
+      bgmAudio.src = objectUrl;
+      bgmAudio.volume = parseFloat(document.getElementById('bgmVolumeSlider').value);
+      document.getElementById('bgmTrackTitle').textContent = file.name;
+      document.getElementById('btnPlayAudio').disabled = false;
+      toggleBGMPlay(true);
+    }
+
+    function toggleBGMPlay(forcePlay = null) {
+      if (!bgmAudio.src) return;
+      const btn = document.getElementById('btnPlayAudio');
+      if (forcePlay === true || (!isBgmPlaying && forcePlay === null)) {
+        bgmAudio.play().then(() => {
+          isBgmPlaying = true;
+          btn.innerHTML = '<i class="fa-solid fa-pause text-indigo-400"></i>';
+        }).catch(err => console.log("Audio Autoplay:", err));
+      } else {
+        bgmAudio.pause();
+        isBgmPlaying = false;
+        btn.innerHTML = '<i class="fa-solid fa-play"></i>';
+      }
+    }
+
+    function changeBGMVolume(val) {
+      if (bgmAudio) bgmAudio.volume = parseFloat(val);
+    }
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => console.log(err));
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+
+    // ==========================================
+    // DATA KELOMPOK & DUA BANK SOAL CERITA FANTASI KELAS 7
+    // ==========================================
+    const HERO_NAMES = [
+      "Bung Tomo",
+      "Diponegoro",
+      "Cut Nyak Dhien",
+      "Ki Hajar Dewantara",
+      "Pangeran Antasari",
+      "Jenderal Soedirman",
+      "R.A. Kartini",
+      "I Gusti Ngurah Rai"
+    ];
+
+    // BANK 1: BABAK PEREMPAT FINAL (TINGKAT DASAR / MENENGAH KELAS 7)
+    // Fokus: Ciri teks fantasi, struktur awal, jenis fantasi (total vs irisan, lintas waktu vs sezaman), kata ganti, dan keajaiban tokoh.
+    const RAW_FANTASI_EASY_SEEDS = [
+      {
+        stimulusTitle: "Misteri Lemari Tua Narnia",
+        stimulus: "‘Di sebuah loteng rumah tua, Dika menemukan lemari kayu berukir naga. Saat membuka pintunya, ia tidak melihat tumpukan pakaian, melainkan embusan angin bersalju dan deretan pohon cemara yang bercahaya keperakan.’",
+        q: "Kutipan cerita di atas termasuk ke dalam bagian struktur teks cerita fantasi yaitu...",
+        correct: "Orientasi, karena mengenalkan tokoh Dika, latar tempat, dan awal mula keajaiban",
+        distractors: [
+          "Resolusi, karena memuat jalan keluar dari masalah yang dihadapi Dika",
+          "Komplikasi, karena pertarungan sengit melawan naga salju telah dimulai",
+          "Koda, karena memuat nasihat bijak pengarang secara langsung kepada pembaca"
+        ],
+        exp: "Bagian Orientasi mengenalkan tokoh, latar waktu/tempat, serta gerbang pembuka keajaiban cerita."
+      },
+      {
+        stimulusTitle: "Pertemuan dengan Naga Emas",
+        stimulus: "‘Seketika langit terbelah dan muncullah seekor naga bersisik emas. Yang membuat Arga takjub, naga itu tidak menyemburkan api, melainkan bisa berbicara dengan bahasa manusia dengan sangat ramah.’",
+        q: "Ciri utama teks cerita fantasi yang paling menonjol pada kutipan tersebut adalah...",
+        correct: "Ada keajaiban atau keanehan yang tidak terjadi di dunia nyata (tokoh berkemampuan luar biasa)",
+        distractors: [
+          "Menggunakan fakta sejarah perjuangan bangsa Indonesia pada masa penjajahan",
+          "Menjelaskan petunjuk langkah demi langkah merawat hewan peliharaan",
+          "Menggunakan bahasa baku formal laporan penelitian ilmiah laboratorium"
+        ],
+        exp: "Salah satu ciri utama cerita fantasi adalah hadirnya unsur gaib, keajaiban, atau tokoh yang memiliki kekuatan supranatural."
+      },
+      {
+        stimulusTitle: "Jam Pasir Penembus Waktu",
+        stimulus: "‘Rani membalik jam pasir kuno milik kakeknya. Dalam sekejap, dinding kamarnya memudar dan ia sudah berdiri di halaman Kerajaan Majapahit pada tahun 1350 Masehi lengkap dengan pakaian dayang istana.’",
+        q: "Berdasarkan latar waktunya, cerita fantasi di atas tergolong jenis fantasi...",
+        correct: "Fantasi lintas waktu, karena mempertemukan masa kini dengan masa lampau",
+        distractors: [
+          "Fantasi sezaman, karena ceritanya hanya terjadi di dalam kamar Rani saja",
+          "Fantasi total, karena semua nama tokoh dan kerajaannya murni karangan fiktif",
+          "Fantasi ilmiah futuristik, karena menggunakan pesawat penjelajah antariksa"
+        ],
+        exp: "Cerita fantasi lintas waktu menggunakan dua masa yang berbeda (misalnya masa sekarang dan masa sejarah ratusan tahun lalu)."
+      },
+      {
+        stimulusTitle: "Negeri Gelembung Awan",
+        stimulus: "‘Di Planet Zaphire, semua makhluk hidup bertubuh bening seperti ubur-ubur dan meminum cahaya bintang sebagai makanannya. Tidak ada matahari maupun tanah di sana; mereka melayang bebas di antara kabut kristal ungu.’",
+        q: "Cerita fantasi di atas dikategorikan sebagai fantasi total karena...",
+        correct: "Semua tokoh, latar dunia, dan peristiwa yang diceritakan murni rekaan dan tidak ada di dunia nyata",
+        distractors: [
+          "Masih menggunakan nama planet yang ada di sistem tata surya bumi",
+          "Tokoh utamanya adalah astronot yang dikirim oleh badan antariksa dunia",
+          "Sebagian ceritanya diambil dari peristiwa sejarah nyata zaman purba"
+        ],
+        exp: "Fantasi total adalah cerita di mana seluruh nama orang, latar tempat, dan peristiwa tidak ada padanannya di dunia nyata."
+      },
+      {
+        stimulusTitle: "Kekuatan Rahasia Kalung Bintang",
+        stimulus: "‘Tiba-tiba batu giok di leher Farhan berpendar terang. Tubuhnya terasa seringan bulu dan dalam hitungan detik ia melesat terbang menghindari terkaman serigala bayangan hitam.’",
+        q: "Unsur kebahasaan yang menandai kata kerja tindakan (material) pada kutipan di atas adalah...",
+        correct: "melesat terbang dan menghindari",
+        distractors: [
+          "terasa seringan dan berpendar",
+          "serigala bayangan dan batu giok",
+          "hitungan detik dan leher Farhan"
+        ],
+        exp: "'Melesat terbang' dan 'menghindari' adalah kata kerja aktif (verba material) yang menggambarkan aksi fisik tokoh."
+      },
+      {
+        stimulusTitle: "Penyelamatan Pohon Kehidupan",
+        stimulus: "‘Setelah pertarungan melelahkan melawan monster raksasa, Riko berhasil menancapkan Kristal Biru ke akar Pohon Kehidupan. Hutan yang semula layu kembali menghijau dan semua peri bersorak gembira.’",
+        q: "Kutipan petikan di atas menduduki bagian struktur teks fantasi yaitu...",
+        correct: "Resolusi, karena masalah terselesaikan dan keadaan kembali damai",
+        distractors: [
+          "Orientasi, karena menceritakan asal-usul hutan peri sebelum rusak",
+          "Komplikasi, karena monster raksasa baru saja bangkit dari dalam tanah",
+          "Tujuan, karena memuat daftar ramuan penyubur tanaman hutan"
+        ],
+        exp: "Resolusi adalah bagian yang memuat penyelesaian masalah (konflik) yang dihadapi oleh tokoh cerita."
+      },
+      {
+        stimulusTitle: "Konjungsi Urutan Waktu",
+        stimulus: "(1) Mulanya pintu batu itu terkunci rapat. (2) Kemudian, Bara membacakan mantra kuno. (3) Seketika itu juga, gerbang terbuka memancarkan cahaya emas.",
+        q: "Kata penghubung (konjungsi) yang menyatakan urutan peristiwa waktu antarkalimat adalah...",
+        correct: "Kemudian dan Seketika itu juga",
+        distractors: [
+          "Mantra kuno dan Pintu batu",
+          "Terkunci rapat dan Terbuka",
+          "Gerbang emas dan Cahaya"
+        ],
+        exp: "'Kemudian' dan 'seketika itu juga' berfungsi sebagai penanda urutan kronologis jalannya peristiwa cerita."
+      },
+      {
+        stimulusTitle: "Penggunaan Pronomina Persona",
+        stimulus: "‘\"Kita harus segera lari sebelum pasukan Goblin mengepung bukit ini!\" teriak Doni sambil menarik tangan adiknya.’",
+        q: "Kata 'Kita' pada kalimat langsung di atas berfungsi sebagai kata ganti orang...",
+        correct: "Pertama jamak (orang yang berbicara bersama kawan bicaranya)",
+        distractors: [
+          "Kedua tunggal untuk menegur lawan bicara secara sopan",
+          "Ketiga jamak untuk membicarakan orang lain di luar cerita",
+          "Penunjuk tempat peristiwa pertarungan berlangsung"
+        ],
+        exp: "Kata 'kita' adalah pronomina persona (kata ganti orang) pertama jamak yang mencakup pembicara dan pendengar."
+      },
+      {
+        stimulusTitle: "Latar Suasana yang Menegangkan",
+        stimulus: "‘Petir menyambar-nyambar tanpa henti di langit Lembah Tengkorak. Tanah bergetar hebat saat raksasa bermata satu itu menghentakkan tongkat besinya ke tebing batu karang.’",
+        q: "Kutipan di atas berhasil membangun latar berupa...",
+        correct: "Latar tempat dan suasana mencekam penuh ancaman bahaya",
+        distractors: [
+          "Latar waktu pagi hari yang damai dan menyejukkan hati",
+          "Latar sosial kehidupan perkotaan yang serba modern",
+          "Latar budaya upacara pernikahan adat tradisional"
+        ],
+        exp: "Pilihan kata 'petir menyambar', 'tanah bergetar', dan 'raksasa menghentakkan tongkat' melukiskan suasana yang menegangkan."
+      },
+      {
+        stimulusTitle: "Karakter Tokoh Antagonis",
+        stimulus: "‘Penyihir Morga tersenyum licik. Ia merebut tongkat sihir peri air lalu mengurungnya di dalam botol kaca gelap agar tidak ada lagi yang bisa menolong penduduk desa.’",
+        q: "Berdasarkan kutipan di atas, watak tokoh Penyihir Morga adalah...",
+        correct: "Jahat dan serakah (antagonis)",
+        distractors: [
+          "Pemberani dan suka menolong (protagonis)",
+          "Penakut dan mudah putus asa",
+          "Bijaksana dan adil kepada rakyat"
+        ],
+        exp: "Tindakan merebut tongkat sihir dan mengurung peri menunjukkan watak licik dan jahat (antagonis)."
+      }
+    ];
+
+    // BANK 2: BABAK SEMIFINAL & GRAND FINAL (TINGKAT SULIT / HOTS KELAS 7)
+    // Fokus: Kausalitas konflik magis, amanat tersirat, analisis hukum dunia fantasi, logika sebab-akibat alur, dan pembuktian watak.
+    const RAW_FANTASI_HARD_SEEDS = [
+      {
+        stimulusTitle: "Hukum Sihir Cermin Kejujuran",
+        stimulus: "‘Cermin Aethelgard hanya akan membuka gerbang keluar jika orang yang bercermin berani mengakui kesalahan terbesarnya. Namun, saat Arkan bercermin, ia berbohong dengan mengaku bahwa ia adalah ksatria tak terkalahkan. Seketika itu juga, pantulan dirinya di cermin berubah menjadi batu dan ruangan perlahan membeku.’",
+        q: "Analisis sebab-akibat yang memicu terjadinya bahaya pembekuan ruangan adalah...",
+        correct: "Ketidakjujuran Arkan melanggar hukum magis cermin yang menuntut pengakuan kesalahan sejati",
+        distractors: [
+          "Cermin Aethelgard kehabisan energi sihir karena terlalu sering digunakan ksatria",
+          "Arkan lupa membawa pedang pusaka saat berdiri di depan pantulan kaca cermin",
+          "Ruangan cermin terkena kutukan badai salju abadi dari luar benteng istana"
+        ],
+        exp: "Konflik fantasi terjadi akibat hubungan kausalitas: hukum magis cermin mensyaratkan kejujuran, sehingga kebohongan Arkan memicu hukuman pembekuan."
+      },
+      {
+        stimulusTitle: "Pengorbanan Sayap Garuda Kristal",
+        stimulus: "‘Garuda Kristal tahu bahwa merentangkan sayapnya di atas lahar pijar akan melelehkan bulu-bulu abadi miliknya selamanya. Namun, mendengar jeritan anak-anak desa yang terkepung magma, ia rela menukik turun membentuk jembatan pelindung hingga seluruh warga berhasil menyeberang ke bukit yang aman.’",
+        q: "Amanat moral tersirat yang paling mendalam dari tindakan tokoh Garuda Kristal adalah...",
+        correct: "Keberanian sejati adalah kerelaan berkorban demi keselamatan orang lain meski kehilangan hal paling berharga",
+        distractors: [
+          "Jangan pernah terbang melintasi kawah gunung berapi tanpa baju pelindung lahar",
+          "Kekuatan abadi suatu saat pasti akan hilang jika tidak disimpan dengan baik di sarang",
+          "Anak-anak desa dilarang bermain terlalu dekat dengan aliran lahar panas saat malam hari"
+        ],
+        exp: "Amanat tersirat tampak dari sikap rela berkorban (kehilangan sayap abadi) demi menyelamatkan nyawa orang banyak."
+      },
+      {
+        stimulusTitle: "Paradoks Mesin Waktu Kronos",
+        stimulus: "‘Profesor Danu memperingatkan Arya: \"Jangan pernah mengambil benda apa pun dari abad ke-15, karena sehelai daun pun yang berpindah akan mengubah masa depan dunia kita!\" Namun Arya tergoda menyelipkan sekuntum bunga langka ke sakunya. Saat kembali ke tahun 2026, ia mendapati kotanya telah lenyap dan berganti menjadi hutan belantara purba.’",
+        q: "Hubungan logika alur cerita (kausalitas) yang terjadi pada teks fantasi futuristik di atas adalah...",
+        correct: "Pelanggaran aturan waktu oleh Arya memicu efek kupu-kupu (*butterfly effect*) yang merusak garis sejarah masa depan",
+        distractors: [
+          "Bunga langka yang dipetik Arya ternyata beracun dan membunuh seluruh penduduk kota di tahun 2026",
+          "Mesin waktu Kronos mengalami korsleting baterai akibat kelebihan beban membawa bunga",
+          "Profesor Danu sengaja memindahkan letak kota ke tengah hutan belantara untuk menguji Arya"
+        ],
+        exp: "Teks mengangkat tema paradoks waktu: tindakan kecil di masa lalu berakibat fatal pada tatanan masa depan."
+      },
+      {
+        stimulusTitle: "Misteri Kalung Dua Sisi",
+        stimulus: "‘Kalung Obsidian itu menjanjikan kemenangan instan dalam setiap pertempuran, tetapi kalung itu perlahan mengikis rasa belas kasihan pemakainya. Ksatria Galang menyadari pedangnya makin tajam, namun senyuman para sahabatnya justru memudar karena takut melihat sorot matanya yang berubah menjadi dingin dan kejam.’",
+        q: "Konflik batin utama yang dihadapi tokoh Ksatria Galang dalam kutipan tersebut adalah...",
+        correct: "Pertentangan antara ambisi mendapatkan kekuatan hebat atau mempertahankan nurani dan rasa persahabatan",
+        distractors: [
+          "Ketakutan pedang pusakanya patah saat bertarung melawan musuh di medan perang",
+          "Rasa kesal karena para sahabatnya tidak mau ikut memakai kalung obsidian yang sama",
+          "Kebingungan memilih warna pakaian zirah yang cocok dipadukan dengan kalung hitam"
+        ],
+        exp: "Konflik batin (psikologis) terjadi antara godaan kekuatan kalung melawan hilangnya rasa kemanusiaan pada diri Galang."
+      },
+      {
+        stimulusTitle: "Teka-teki Spinx Gerbang Cahaya",
+        stimulus: "‘\"Aku tidak memiliki wujud, namun bisa menghancurkan kerajaan tanpa pedang. Aku lahir dari kecurigaan dan mati di hadapan fakta. Siapakah aku?\" tanya Penjaga Gerbang. Gilang berpikir keras. Prajurit di sampingnya panik dan mengacungkan tombak, namun Gilang segera menahan tombak itu dan menjawab mantap: \"Fitnah.\" Pintu gerbang pun perlahan terbuka.’",
+        q: "Bukti tekstual yang menunjukkan bahwa Gilang adalah tokoh yang cerdas dan tenang adalah...",
+        correct: "Mampu berpikir jernih menahan kepanikan prajurit dan memecahkan teka-teki logika dengan tepat",
+        distractors: [
+          "Membawa senjata tombak paling panjang untuk menakut-nakuti Penjaga Gerbang",
+          "Memilih melarikan diri meninggalkan prajuritnya agar tidak menjadi korban penjaga",
+          "Mampu menghancurkan pintu gerbang batu menggunakan kekuatan pedang sihirnya"
+        ],
+        exp: "Karakter cerdas dan tenang dibuktikan saat Gilang mengendalikan situasi panik lalu menjawab teka-teki dengan benar."
+      },
+      {
+        stimulusTitle: "Kutukan Kristal Keabadian",
+        stimulus: "‘Raja Edward telah meminum Air Kehidupan sehingga tubuhnya tidak bisa menua atau mati. Namun, ratusan tahun berlalu, ia harus menyaksikan anak, cucu, dan seluruh rakyat yang dicintainya meninggal satu per satu. Di atas takhta megahnya, ia menangis memohon agar bisa menjadi manusia biasa yang fana.’",
+        q: "Pesan tersirat yang ingin disampaikan pengarang melalui kisah fantasi di atas adalah...",
+        correct: "Keabadian tanpa kebersamaan dengan orang-orang terkasih hanyalah kesepian yang menyiksa",
+        distractors: [
+          "Air Kehidupan harus diminum bersama seluruh rakyat agar kerajaan tidak hancur",
+          "Menjadi raja adalah pekerjaan paling melelahkan karena harus memimpin ratusan tahun",
+          "Jangan pernah membangun istana megah dari batu kristal karena mudah rapuh"
+        ],
+        exp: "Pengarang menyampaikan pesan filosofis bahwa hidup abadi bukanlah berkah jika berujung pada penderitaan batin dan kesepian."
+      },
+      {
+        stimulusTitle: "Dua Dimensi Kota Ilusi",
+        stimulus: "‘Saat jam menara berdenting 13 kali, bayangan gedung-gedung kota Jakarta di permukaan Sungai Ciliwung tidak lagi memantulkan beton, melainkan benteng megah dari emas terapung. Rangga melompat menyentuh air itu dan mendadak tubuhnya tersedot masuk ke Batavia era magis abad ke-17.’",
+        q: "Mengapa kutipan di atas digolongkan sebagai fantasi irisan lintas waktu?",
+        correct: "Menggunakan latar tempat nyata di dunia kita (Jakarta/Ciliwung) yang bersinggungan dengan dunia masa lampau magis",
+        distractors: [
+          "Seluruh nama kota, sungai, dan peristiwanya sama sekali tidak ada di peta Indonesia",
+          "Cerita berlangsung di masa depan pada tahun 3000 saat bumi sudah tenggelam",
+          "Tokoh Rangga diceritakan sebagai makhluk setengah dewa yang bertubuh raksasa"
+        ],
+        exp: "Fantasi irisan menggunakan sebagian unsur dunia nyata (Jakarta, Sungai Ciliwung, abad ke-17) yang bersanding dengan dunia magis."
+      },
+      {
+        stimulusTitle: "Runtuhnya Mantra Pelindung",
+        stimulus: "‘Mantra pelindung desa itu terikat pada kejujuran pemimpinnya. Ketika Kepala Suku diam-diam menyembunyikan batu mustika untuk kepentingannya sendiri, kubah cahaya pelindung di atas desa mendadak retak dan kabut monster kegelapan mulai merayap masuk ke pemukiman.’",
+        q: "Konsekuensi logis dari sikap serakah Kepala Suku dalam hukum cerita tersebut adalah...",
+        correct: "Hilangnya perlindungan magis desa sehingga membahayakan keselamatan seluruh penduduk",
+        distractors: [
+          "Batu mustika otomatis berubah menjadi emas murni yang membuat desa menjadi kaya raya",
+          "Monster kegelapan takut kepada Kepala Suku dan langsung berbalik arah menuju hutan",
+          "Penduduk desa mendapatkan kekuatan sihir baru untuk melawan monster kegelapan"
+        ],
+        exp: "Teks menunjukkan kausalitas moral: retaknya kubah pelindung terjadi karena pelanggaran syarat kejujuran oleh sang pemimpin."
+      },
+      {
+        stimulusTitle: "Dialog Jiwa di Ruang Hampa",
+        stimulus: "‘\"Kenapa kamu menolongku? Padahal bangsa elf dan manusia adalah musuh bebuyutan!\" desis Varian yang terluka parah. Bima menyeka darah di pedangnya lalu menjawab lirih: \"Kebencian para tetua kita di masa lalu bukan alasan bagi kita untuk saling membunuh hari ini.\"’",
+        q: "Nilai luhur kemanusiaan yang diperjuangkan oleh tokoh Bima adalah...",
+        correct: "Memutus rantai dendam antargenerasi dan mengutamakan rasa welas asih melampaui perbedaan bangsa",
+        distractors: [
+          "Membujuk bangsa elf agar bersedia menyerahkan wilayah hutannya kepada manusia",
+          "Menunjukkan kehebatan ilmu pedang manusia di depan prajurit bangsa lain",
+          "Memanfaatkan luka Varian untuk menggali rahasia benteng pertahanan musuh"
+        ],
+        exp: "Pernyataan Bima secara tersirat mengajarkan perdamaian dan menolak mewarisi dendam masa lalu."
+      },
+      {
+        stimulusTitle: "Rahasia Kitab Kuno Berkunci Tujuh",
+        stimulus: "‘Kitab Kuno itu tidak dapat dibuka dengan kekuatan fisik sekuat apa pun. Hanya ketika air mata ketulusan seorang sahabat menetes ke atas gemboknya, ketujuh segel besi itu terlepas dengan sendirinya diiringi melodi seruling yang menenangkan.’",
+        q: "Keunikan unsur penyelesaian masalah (resolusi) dalam cerita fantasi di atas terletak pada...",
+        correct: "Kekuatan emosi ketulusan hati yang mampu mengalahkan batasan kekuatan fisik benda magis",
+        distractors: [
+          "Penggunaan alat bor modern untuk membongkar kunci segel besi kitab kuno",
+          "Bantuan ribuan prajurit bersenjata lengkap yang mendobrak gerbang istana",
+          "Kekuatan mantra jahat yang berhasil membakar habis sampul kitab kuno"
+        ],
+        exp: "Keunikan resolusi teks fantasi sering kali menempatkan kekuatan nilai moral/kasih sayang di atas kekuatan senjata fisik."
+      }
+    ];
+
+    // PEMBENTUKAN BANK SOAL: 75 BABAK AWAL (MUDAH) & 75 BABAK AKHIR (SULIT HOTS)
+    const QUESTION_BANK_EASY = [];
+    const QUESTION_BANK_HARD = [];
+
+    const TOPIC_MODS_EASY = ["Orientasi & Tokoh Ajaib", "Jenis Fantasi (Total/Irisan)", "Ciri Keajaiban Fantasi", "Konjungsi Kronologis Cerita", "Resolusi Masalah"];
+    const TOPIC_MODS_HARD = ["Analisis Kausalitas Magis", "Amanat Tersirat HOTS", "Logika Hukum Dunia Fantasi", "Pembuktian Watak Tokoh", "Paradoks Latar Waktu"];
+
+    for (let i = 1; i <= 75; i++) {
+      const seed = RAW_FANTASI_EASY_SEEDS[(i - 1) % RAW_FANTASI_EASY_SEEDS.length];
+      const mod = TOPIC_MODS_EASY[(i - 1) % TOPIC_MODS_EASY.length];
+      QUESTION_BANK_EASY.push({
+        id: `FANTASI-EASY-${i}`,
+        level: "Dasar / Menengah",
+        topic: mod,
+        stimulusTitle: `${seed.stimulusTitle} (#${i})`,
+        stimulus: seed.stimulus,
+        question: seed.q,
+        correct: seed.correct,
+        distractors: seed.distractors,
+        explanation: seed.exp
+      });
+    }
+
+    for (let i = 1; i <= 75; i++) {
+      const seed = RAW_FANTASI_HARD_SEEDS[(i - 1) % RAW_FANTASI_HARD_SEEDS.length];
+      const mod = TOPIC_MODS_HARD[(i - 1) % TOPIC_MODS_HARD.length];
+      QUESTION_BANK_HARD.push({
+        id: `FANTASI-HARD-${i}`,
+        level: "Sulit / HOTS Analitis",
+        topic: mod,
+        stimulusTitle: `${seed.stimulusTitle} (HOTS #${i})`,
+        stimulus: seed.stimulus,
+        question: seed.q,
+        correct: seed.correct,
+        distractors: seed.distractors,
+        explanation: seed.exp
+      });
+    }
+
+    // STATE PERTANDINGAN & LACAK SOAL UNIK
+    let usedQuestionIds = new Set();
+
+    let rawStudentList = [];
+    let unassignedStudents = [];
+    let groupCapacityLimits = [0, 0, 0, 0, 0, 0, 0, 0];
+    let currentGroupTargetIdx = 0;
+    let pendingChosenStudent = null;
+
+    let groupList = HERO_NAMES.map((heroName, i) => ({
+      id: `G-${i + 1}`,
+      name: heroName,
+      membersArr: [],
+      members: "",
+      tested: false,
+      correctCount: 0,
+      timeRemaining: 0,
+      score: null,
+      examTime: null,
+      teamRole: null
+    }));
+
+    let tournamentTree = {
+      quarter: [
+        { id: "QF1", round: "Perempat Final", level: "easy", p1: HERO_NAMES[0], p2: HERO_NAMES[1], winner: null, scoreP1: null, scoreP2: null },
+        { id: "QF2", round: "Perempat Final", level: "easy", p1: HERO_NAMES[2], p2: HERO_NAMES[3], winner: null, scoreP1: null, scoreP2: null },
+        { id: "QF3", round: "Perempat Final", level: "easy", p1: HERO_NAMES[4], p2: HERO_NAMES[5], winner: null, scoreP1: null, scoreP2: null },
+        { id: "QF4", round: "Perempat Final", level: "easy", p1: HERO_NAMES[6], p2: HERO_NAMES[7], winner: null, scoreP1: null, scoreP2: null }
+      ],
+      semi: [
+        { id: "SF1", round: "Semi Final", level: "hard", p1: null, p2: null, winner: null, scoreP1: null, scoreP2: null },
+        { id: "SF2", round: "Semi Final", level: "hard", p1: null, p2: null, winner: null, scoreP1: null, scoreP2: null }
+      ],
+      final: [
+        { id: "FN1", round: "Grand Final", level: "hard", p1: null, p2: null, winner: null, scoreP1: null, scoreP2: null }
+      ]
+    };
+
+    let activeMatchContext = null;
+    let teamGroupA = null, teamGroupB = null;
+    let currentTeam = 'A';
+    let teamQuestionsA = [], teamQuestionsB = [];
+    let currentQIdxInTeam = 0;
+    let teamScoreA = 0, teamScoreB = 0;
+    let timeRemainingA = 0, timeRemainingB = 0;
+
+    let teamTimerRemaining = 180;
+    let timerInterval = null;
+    let isTimerPaused = false;
+
+    let studentWheelCanvas, studentWheelCtx;
+    let studentWheelAngle = 0;
+    let isSpinning = false;
+
+    function saveToLocalStorage() {
+      const state = { 
+        groupList, 
+        tournamentTree, 
+        rawText: document.getElementById('inputRawStudents').value,
+        usedIds: Array.from(usedQuestionIds)
+      };
+      localStorage.setItem('smpn28_duel_fantasi_kls7_v1', JSON.stringify(state));
+    }
+
+    function loadFromLocalStorage() {
+      const saved = localStorage.getItem('smpn28_duel_fantasi_kls7_v1');
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          if (parsed.groupList) groupList = parsed.groupList;
+          if (parsed.tournamentTree) tournamentTree = parsed.tournamentTree;
+          if (parsed.rawText) document.getElementById('inputRawStudents').value = parsed.rawText;
+          if (parsed.usedIds) usedQuestionIds = new Set(parsed.usedIds);
+        } catch (e) {
+          console.error("Gagal memuat memori lokal", e);
+        }
+      }
+    }
+
+    function calculateRaport(correctCount) {
+      const scaleMap = { 
+        0: 75, 1: 76, 2: 78, 3: 80, 4: 83, 
+        5: 85, 6: 88, 7: 90, 8: 93, 9: 95, 10: 98 
+      };
+      return scaleMap[correctCount] !== undefined ? scaleMap[correctCount] : 75;
+    }
+
+    function setActiveTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.classList.remove('bg-indigo-600', 'text-white');
+        btn.classList.add('text-slate-400');
+      });
+
+      const targetTab = document.getElementById(`tab-${tabId}`);
+      if (targetTab) targetTab.classList.remove('hidden');
+
+      const activeBtn = document.getElementById(`tabBtn-${tabId}`);
+      if (activeBtn) {
+        activeBtn.classList.remove('text-slate-400');
+        activeBtn.classList.add('bg-indigo-600', 'text-white');
+      }
+
+      if (tabId === 'groups') {
+        drawStudentWheel();
+      } else if (tabId === 'bracket') {
+        renderBracketUI();
+      } else if (tabId === 'spin') {
+        updateNextMatchPreview();
+      }
+    }
+
+    function updateStudentPoolFromInput() {
+      const inputEl = document.getElementById('inputRawStudents');
+      if (!inputEl) return;
+      const rawText = inputEl.value;
+      const lines = rawText.split('\n').map(s => s.trim()).filter(s => s.length > 0);
+      
+      rawStudentList = lines;
+      unassignedStudents = [...lines];
+
+      document.getElementById('studentCountBadge').textContent = `${lines.length} Siswa Hadir`;
+
+      calculateDynamicCapacities(lines.length);
+      resetGroupsStructure();
+      drawStudentWheel();
+      renderGroupsGridUI();
+    }
+
+    function calculateDynamicCapacities(totalStudents) {
+      if (totalStudents <= 0) {
+        groupCapacityLimits = Array(8).fill(0);
+        return;
+      }
+      const base = Math.floor(totalStudents / 8);
+      const remainder = totalStudents % 8;
+
+      let caps = Array(8).fill(base);
+      for (let i = 0; i < remainder; i++) {
+        caps[i] += 1;
+      }
+      groupCapacityLimits = caps;
+    }
+
+    function resetGroupsStructure() {
+      currentGroupTargetIdx = 0;
+      groupList = HERO_NAMES.map((heroName, i) => ({
+        id: `G-${i + 1}`,
+        name: heroName,
+        membersArr: [],
+        members: "",
+        tested: false,
+        correctCount: 0,
+        timeRemaining: 0,
+        score: null,
+        examTime: null,
+        teamRole: null
+      }));
+      updateCurrentTargetLabel();
+    }
+
+    function updateCurrentTargetLabel() {
+      const label = document.getElementById('currentTargetGroupLabel');
+      if (currentGroupTargetIdx < 8) {
+        const targetGroup = groupList[currentGroupTargetIdx];
+        const cap = groupCapacityLimits[currentGroupTargetIdx];
+        label.textContent = `${targetGroup.name} (${targetGroup.membersArr.length}/${cap} Siswa)`;
+      } else {
+        label.textContent = "SEMUA KELOMPOK PENUH!";
+      }
+    }
+
+    function drawStudentWheel() {
+      studentWheelCanvas = document.getElementById('studentWheelCanvas');
+      if (!studentWheelCanvas) return;
+      studentWheelCtx = studentWheelCanvas.getContext('2d');
+      const list = unassignedStudents;
+      const total = list.length || 1;
+      const arc = (2 * Math.PI) / total;
+      const cx = studentWheelCanvas.width / 2;
+      const cy = studentWheelCanvas.height / 2;
+      const radius = cx - 10;
+
+      studentWheelCtx.clearRect(0, 0, studentWheelCanvas.width, studentWheelCanvas.height);
+      const colors = ['#6366f1', '#8b5cf6', '#ec4899', '#3b82f6', '#06b6d4', '#10b981', '#f59e0b', '#f43f5e'];
+
+      for (let i = 0; i < total; i++) {
+        const angle = studentWheelAngle + i * arc;
+        studentWheelCtx.beginPath();
+        studentWheelCtx.fillStyle = colors[i % colors.length];
+        studentWheelCtx.moveTo(cx, cy);
+        studentWheelCtx.arc(cx, cy, radius, angle, angle + arc);
+        studentWheelCtx.lineTo(cx, cy);
+        studentWheelCtx.fill();
+        studentWheelCtx.stroke();
+
+        studentWheelCtx.save();
+        studentWheelCtx.translate(cx, cy);
+        studentWheelCtx.rotate(angle + arc / 2);
+        studentWheelCtx.textAlign = 'right';
+        studentWheelCtx.fillStyle = '#ffffff';
+        studentWheelCtx.font = 'bold 11px Plus Jakarta Sans, sans-serif';
+        const labelName = list[i] ? list[i] : 'Selesai';
+        studentWheelCtx.fillText(labelName, radius - 15, 4);
+        studentWheelCtx.restore();
+      }
+
+      studentWheelCtx.beginPath();
+      studentWheelCtx.arc(cx, cy, 32, 0, 2 * Math.PI);
+      studentWheelCtx.fillStyle = '#0f172a';
+      studentWheelCtx.fill();
+      studentWheelCtx.lineWidth = 3;
+      studentWheelCtx.strokeStyle = '#818cf8';
+      studentWheelCtx.stroke();
+    }
+
+    function spinNextStudent() {
+      if (isSpinning) return;
+      if (unassignedStudents.length === 0) {
+        alert("Semua siswa hadir telah terbagi ke dalam kelompok!");
+        return;
+      }
+      if (currentGroupTargetIdx >= 8) {
+        alert("Semua kelompok telah memenuhi kuota!");
+        return;
+      }
+
+      isSpinning = true;
+      let duration = 2000;
+      let start = null;
+      let initialSpeed = 25 + Math.random() * 15;
+      let lastTickAngle = 0;
+
+      function step(timestamp) {
+        if (!start) start = timestamp;
+        let progress = timestamp - start;
+        studentWheelAngle += initialSpeed * (1 - progress / duration);
+        drawStudentWheel();
+
+        if (Math.abs(studentWheelAngle - lastTickAngle) > 0.4) {
+          playSfxTick();
+          lastTickAngle = studentWheelAngle;
+        }
+
+        if (progress < duration) {
+          requestAnimationFrame(step);
+        } else {
+          isSpinning = false;
+          showWinnerModal();
+        }
+      }
+      requestAnimationFrame(step);
+    }
+
+    function showWinnerModal() {
+      if (unassignedStudents.length === 0) return;
+
+      const selectedIndex = Math.floor(Math.random() * unassignedStudents.length);
+      pendingChosenStudent = unassignedStudents.splice(selectedIndex, 1)[0];
+      const targetGroup = groupList[currentGroupTargetIdx];
+
+      document.getElementById('winnerStudentName').textContent = pendingChosenStudent;
+      document.getElementById('winnerGroupName').textContent = targetGroup.name;
+      document.getElementById('winnerModal').classList.remove('hidden');
+
+      playSfxCorrect();
+
+      confetti({
+        particleCount: 70,
+        spread: 50,
+        origin: { y: 0.6 }
+      });
+    }
+
+    function closeWinnerModal() {
+      document.getElementById('winnerModal').classList.add('hidden');
+      if (!pendingChosenStudent) return;
+
+      const targetGroup = groupList[currentGroupTargetIdx];
+      targetGroup.membersArr.push(pendingChosenStudent);
+      targetGroup.members = targetGroup.membersArr.join(', ');
+
+      if (targetGroup.membersArr.length >= groupCapacityLimits[currentGroupTargetIdx]) {
+        currentGroupTargetIdx++;
+      }
+
+      pendingChosenStudent = null;
+      updateCurrentTargetLabel();
+      drawStudentWheel();
+      renderGroupsGridUI();
+      renderAttendanceList();
+      renderRecapTable();
+      saveToLocalStorage();
+    }
+
+    function autoSpinAllStudents() {
+      while (unassignedStudents.length > 0 && currentGroupTargetIdx < 8) {
+        const selectedIndex = Math.floor(Math.random() * unassignedStudents.length);
+        const chosenStudent = unassignedStudents.splice(selectedIndex, 1)[0];
+        const targetGroup = groupList[currentGroupTargetIdx];
+        targetGroup.membersArr.push(chosenStudent);
+        targetGroup.members = targetGroup.membersArr.join(', ');
+
+        if (targetGroup.membersArr.length >= groupCapacityLimits[currentGroupTargetIdx]) {
+          currentGroupTargetIdx++;
+        }
+      }
+
+      updateCurrentTargetLabel();
+      drawStudentWheel();
+      renderGroupsGridUI();
+      renderAttendanceList();
+      renderRecapTable();
+      saveToLocalStorage();
+    }
+
+    function renderGroupsGridUI() {
+      const container = document.getElementById('groupsGridContainer');
+      if (!container) return;
+      container.innerHTML = '';
+
+      groupList.forEach((g, idx) => {
+        const cap = groupCapacityLimits[idx] || 0;
+        const isCurrentTarget = idx === currentGroupTargetIdx;
+
+        let membersHtml = '';
+        if (g.membersArr.length > 0) {
+          membersHtml = `<ol class="list-decimal list-inside space-y-0.5 text-xs text-slate-200 font-bold">`;
+          g.membersArr.forEach(m => {
+            membersHtml += `<li class="truncate">${m}</li>`;
+          });
+          membersHtml += `</ol>`;
+        } else {
+          membersHtml = `<p class="text-xs text-slate-500 italic">Menunggu undian...</p>`;
+        }
+
+        const card = document.createElement('div');
+        card.className = `bg-slate-950 border ${isCurrentTarget ? 'border-indigo-400 ring-1 ring-indigo-400/40' : 'border-slate-800'} rounded-xl p-2.5 flex flex-col justify-between transition-all`;
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between pb-1 border-b border-slate-800 mb-1.5">
+              <h4 class="font-black ${isCurrentTarget ? 'text-amber-400' : 'text-indigo-400'} text-xs truncate">${g.name}</h4>
+              <span class="text-[10px] font-mono ${g.membersArr.length === cap && cap > 0 ? 'bg-emerald-950 text-emerald-300 border border-emerald-800' : 'bg-slate-900 text-slate-400'} px-1.5 py-0.2 rounded">
+                ${g.membersArr.length}/${cap}
+              </span>
+            </div>
+            <div class="min-h-[50px]">${membersHtml}</div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    function renderAttendanceList() {
+      const container = document.getElementById('attendanceGroupContainer');
+      const ratioLabel = document.getElementById('queueGroupRatioLabel');
+      if (!container) return;
+      container.innerHTML = '';
+
+      groupList.forEach((g, idx) => {
+        const div = document.createElement('div');
+        div.className = `p-2.5 rounded-xl border ${g.tested ? 'bg-emerald-950/30 border-emerald-800 text-emerald-300' : 'bg-slate-800/80 border-slate-700'}`;
+        
+        let memberStr = g.membersArr.length > 0 ? g.membersArr.join(', ') : 'Belum ada anggota';
+
+        div.innerHTML = `
+          <div class="flex justify-between items-center text-xs sm:text-sm mb-0.5">
+            <span class="font-bold text-white truncate max-w-[65%]" title="${g.name}">${idx + 1}. ${g.name}</span>
+            <span class="font-mono text-xs font-bold">${g.tested ? 'Nilai: ' + g.score : 'Menunggu'}</span>
+          </div>
+          <p class="text-[11px] text-slate-400 truncate"><i class="fa-solid fa-users text-[9px] mr-1"></i> ${memberStr}</p>
+        `;
+        container.appendChild(div);
+      });
+
+      const testedCount = groupList.filter(g => g.tested).length;
+      if (ratioLabel) ratioLabel.textContent = `${testedCount} / 8 Bertanding`;
+    }
+
+    function getNextPendingMatch() {
+      for (let m of tournamentTree.quarter) {
+        if (!m.winner && m.p1 && m.p2) return m;
+      }
+      for (let m of tournamentTree.semi) {
+        if (!m.winner && m.p1 && m.p2) return m;
+      }
+      for (let m of tournamentTree.final) {
+        if (!m.winner && m.p1 && m.p2) return m;
+      }
+      return null;
+    }
+
+    function updateNextMatchPreview() {
+      const match = getNextPendingMatch();
+      const title = document.getElementById('nextMatchTitle');
+      const desc = document.getElementById('nextMatchDesc');
+
+      if (match) {
+        const levelText = match.level === 'easy' ? 'Babak Awal (Tingkat Dasar Cerita Fantasi)' : 'Babak Gugur (Tingkat Sulit HOTS Analitis)';
+        title.textContent = `${match.round}: ${match.p1} vs ${match.p2}`;
+        desc.innerHTML = `Pertandingan berikutnya: babak <b>${match.round}</b> (${levelText}) mempertemukan <b>${match.p1}</b> melawan <b>${match.p2}</b>. Durasi 3 menit per tim untuk 10 soal analisis teks cerita fantasi.`;
+      } else {
+        if (tournamentTree.final[0].winner) {
+          title.textContent = `Turnamen Selesai!`;
+          desc.innerHTML = `Juara Penguasa Dunia Fantasi adalah <b>Kelompok ${tournamentTree.final[0].winner}</b>. Selamat atas kerja sama tim yang spektakuler!`;
+        } else {
+          title.textContent = `Menunggu Hasil Pertandingan`;
+          desc.textContent = `Selesaikan pertandingan pada babak ini agar pemenang dapat dipertemukan di babak selanjutnya.`;
+        }
+      }
+    }
+
+    function startNextScheduledMatch() {
+      const match = getNextPendingMatch();
+      if (!match) {
+        if (tournamentTree.final[0].winner) {
+          alert(`Turnamen telah selesai! Juara turnamen adalah Kelompok ${tournamentTree.final[0].winner}.`);
+        } else {
+          alert("Belum ada match yang siap. Selesaikan babak yang sedang aktif terlebih dahulu!");
+        }
+        return;
+      }
+      triggerMatchExecution(match);
+    }
+
+    function getFreshQuestionSlice(level, count) {
+      const pool = level === 'easy' ? QUESTION_BANK_EASY : QUESTION_BANK_HARD;
+      let available = pool.filter(q => !usedQuestionIds.has(q.id));
+      
+      if (available.length < count) {
+        available = [...pool];
+      }
+
+      const shuffled = [...available].sort(() => 0.5 - Math.random());
+      const selected = shuffled.slice(0, count);
+
+      selected.forEach(q => usedQuestionIds.add(q.id));
+      return selected;
+    }
+
+    function triggerMatchExecution(match) {
+      activeMatchContext = match;
+      const groupA = groupList.find(g => g.name === match.p1) || { name: match.p1, membersArr: [] };
+      const groupB = groupList.find(g => g.name === match.p2) || { name: match.p2, membersArr: [] };
+
+      teamGroupA = groupA;
+      teamGroupB = groupB;
+      teamScoreA = 0;
+      teamScoreB = 0;
+      timeRemainingA = 0;
+      timeRemainingB = 0;
+
+      teamQuestionsA = getFreshQuestionSlice(match.level, 10);
+      teamQuestionsB = getFreshQuestionSlice(match.level, 10);
+
+      document.getElementById('duelNameA').textContent = groupA.name;
+      document.getElementById('duelNameB').textContent = groupB.name;
+      document.getElementById('scoreDisplayA').textContent = `0 / 75`;
+      document.getElementById('scoreDisplayB').textContent = `0 / 75`;
+      document.getElementById('currentMatchRoundBadge').textContent = match.round;
+
+      const diffBadge = document.getElementById('currentDiffLevelBadge');
+      if (match.level === 'easy') {
+        diffBadge.textContent = "Tingkat: Dasar / Menengah";
+        diffBadge.className = "text-xs px-3 py-1 rounded-full font-black bg-emerald-950 text-emerald-300 border border-emerald-700";
+      } else {
+        diffBadge.textContent = "Tingkat: Sulit / HOTS Analitis";
+        diffBadge.className = "text-xs px-3 py-1 rounded-full font-black bg-rose-950 text-rose-300 border border-rose-700 animate-pulse";
+      }
+
+      const membersContainerA = document.getElementById('duelMembersA');
+      const membersContainerB = document.getElementById('duelMembersB');
+
+      membersContainerA.textContent = groupA.membersArr && groupA.membersArr.length > 0 ? `• Anggota: ${groupA.membersArr.join(', ')}` : '• Anggota: Siap tanding';
+      membersContainerB.textContent = groupB.membersArr && groupB.membersArr.length > 0 ? `• Anggota: ${groupB.membersArr.join(', ')}` : '• Anggota: Siap tanding';
+
+      document.getElementById('examContainerEmpty').classList.add('hidden');
+      document.getElementById('examQuestionSection').classList.remove('hidden');
+      document.getElementById('examQuestionSection').classList.add('flex');
+
+      setActiveTab('exam');
+
+      currentTeam = 'A';
+      currentQIdxInTeam = 0;
+      showTeamIntermissionModal('A');
+    }
+
+    function showTeamIntermissionModal(teamKey) {
+      clearInterval(timerInterval);
+      const overlay = document.getElementById('questionCoverOverlay');
+      const title = document.getElementById('overlayTitle');
+      const desc = document.getElementById('overlayDesc');
+      const iconBox = document.getElementById('overlayIconBox');
+      const startBtn = document.getElementById('overlayStartBtn');
+
+      overlay.classList.remove('hidden');
+      const roundLevel = activeMatchContext.level === 'easy' ? 'Tingkat Dasar Cerita Fantasi' : 'Tingkat Sulit HOTS Analitis';
+
+      if (teamKey === 'A') {
+        title.textContent = `Giliran: ${teamGroupA.name}`;
+        title.className = "text-2xl font-black text-blue-400 mb-1.5";
+        desc.innerHTML = `<b>${teamGroupA.name} (Sudut Biru)</b> akan menyelesaikan <b>10 Soal Analisis Cerita Fantasi [${roundLevel}]</b> dalam waktu <b>3 Menit (180 Detik)</b>.`;
+        iconBox.className = "w-16 h-16 rounded-2xl bg-blue-600/20 text-blue-400 flex items-center justify-center text-3xl mb-3 border border-blue-500/30";
+        startBtn.className = "px-8 py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 hover:opacity-90 text-white font-black text-sm rounded-xl shadow-lg flex items-center gap-2 transform active:scale-95 transition";
+        highlightTeamCards('A');
+      } else {
+        title.textContent = `Giliran: ${teamGroupB.name}`;
+        title.className = "text-2xl font-black text-rose-400 mb-1.5";
+        desc.innerHTML = `Giliran ${teamGroupA.name} telah selesai! Sekarang giliran <b>${teamGroupB.name} (Sudut Merah)</b> untuk menyelesaikan <b>10 Soal Analisis Cerita Fantasi [${roundLevel}]</b> dalam waktu <b>3 Menit (180 Detik)</b>.`;
+        iconBox.className = "w-16 h-16 rounded-2xl bg-rose-600/20 text-rose-400 flex items-center justify-center text-3xl mb-3 border border-rose-500/30";
+        startBtn.className = "px-8 py-3.5 bg-gradient-to-r from-rose-600 to-amber-600 hover:opacity-90 text-white font-black text-sm rounded-xl shadow-lg flex items-center gap-2 transform active:scale-95 transition";
+        highlightTeamCards('B');
+      }
+    }
+
+    function highlightTeamCards(teamKey) {
+      const cardA = document.getElementById('cardGroupA');
+      const cardB = document.getElementById('cardGroupB');
+      const badgeA = document.getElementById('badgeActiveA');
+      const badgeB = document.getElementById('badgeActiveB');
+      const indA = document.getElementById('turnIndicatorA');
+      const indB = document.getElementById('turnIndicatorB');
+      const timerLabel = document.getElementById('timerLabel');
+      const turnBadge = document.getElementById('currentTeamTurnBadge');
+
+      if (teamKey === 'A') {
+        cardA.className = "col-span-5 bg-gradient-to-r from-blue-950 via-slate-900 to-slate-900 border border-blue-500 rounded-xl px-3.5 py-2 flex flex-col justify-between shadow ring-2 ring-blue-500/30 opacity-100";
+        cardB.className = "col-span-5 bg-gradient-to-l from-rose-950 via-slate-900 to-slate-900 border border-rose-500/30 rounded-xl px-3.5 py-2 flex flex-col justify-between shadow opacity-40";
+        badgeA.className = "text-[10px] uppercase font-black px-2 py-0.5 rounded bg-blue-500 text-white";
+        badgeB.className = "text-[10px] uppercase font-black px-2 py-0.5 rounded bg-slate-800 text-slate-400";
+        indA.textContent = "Sedang Bertanding (Aktif)";
+        indA.className = "text-xs text-cyan-300 font-bold block truncate";
+        indB.textContent = "Menunggu Giliran";
+        indB.className = "text-xs text-slate-500 font-bold block truncate";
+        timerLabel.textContent = `WAKTU: ${teamGroupA.name.toUpperCase()}`;
+        turnBadge.textContent = `Giliran: ${teamGroupA.name} (Biru)`;
+        turnBadge.className = "text-xs font-black px-3 py-1 rounded-md bg-blue-600 text-white uppercase tracking-wider";
+      } else {
+        cardA.className = "col-span-5 bg-gradient-to-r from-blue-950 via-slate-900 to-slate-900 border border-blue-500/30 rounded-xl px-3.5 py-2 flex flex-col justify-between shadow opacity-40";
+        cardB.className = "col-span-5 bg-gradient-to-l from-rose-950 via-slate-900 to-slate-900 border border-rose-500/30 rounded-xl px-3.5 py-2 flex flex-col justify-between shadow ring-2 ring-rose-500/30 opacity-100";
+        badgeA.className = "text-[10px] uppercase font-black px-2 py-0.5 rounded bg-slate-800 text-slate-400";
+        badgeB.className = "text-[10px] uppercase font-black px-2 py-0.5 rounded bg-rose-500 text-white";
+        indA.textContent = "Selesai Bertanding";
+        indA.className = "text-xs text-slate-500 font-bold block truncate";
+        indB.textContent = "Sedang Bertanding (Aktif)";
+        indB.className = "text-xs text-rose-300 font-bold block truncate";
+        timerLabel.textContent = `WAKTU: ${teamGroupB.name.toUpperCase()}`;
+        turnBadge.textContent = `Giliran: ${teamGroupB.name} (Merah)`;
+        turnBadge.className = "text-xs font-black px-3 py-1 rounded-md bg-rose-600 text-white uppercase tracking-wider";
+      }
+    }
+
+    function startCurrentTeamSession() {
+      document.getElementById('questionCoverOverlay').classList.add('hidden');
+      teamTimerRemaining = 180;
+      isTimerPaused = false;
+      document.getElementById('duelQuestionTimer').textContent = `${teamTimerRemaining}s`;
+
+      toggleBGMPlay(true);
+
+      loadCurrentTeamQuestion();
+      startContinuousTimer();
+    }
+
+    function startContinuousTimer() {
+      clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        if (!isTimerPaused) {
+          teamTimerRemaining--;
+          const timerEl = document.getElementById('duelQuestionTimer');
+          timerEl.textContent = `${teamTimerRemaining}s`;
+
+          if (teamTimerRemaining <= 30) {
+            timerEl.className = "text-3xl font-black font-mono text-rose-500 animate-pulse leading-none my-0.5";
+            if (teamTimerRemaining % 2 === 0) playTone(440, 'sine', 0.05, 0.05);
+          } else {
+            timerEl.className = "text-3xl font-black font-mono text-amber-400 leading-none my-0.5";
+          }
+
+          if (teamTimerRemaining <= 0) {
+            clearInterval(timerInterval);
+            handleTimeOutForCurrentTeam();
+          }
+        }
+      }, 1000);
+    }
+
+    function pauseResumeTimer() {
+      isTimerPaused = !isTimerPaused;
+      const btn = document.getElementById('btnPauseTimer');
+      btn.innerHTML = isTimerPaused ? '<i class="fa-solid fa-play text-emerald-400"></i>' : '<i class="fa-solid fa-pause"></i>';
+    }
+
+    function loadCurrentTeamQuestion() {
+      document.getElementById('explanationBox').classList.add('hidden');
+      const qList = currentTeam === 'A' ? teamQuestionsA : teamQuestionsB;
+      const q = qList[currentQIdxInTeam];
+
+      document.getElementById('duelQuestionBadge').textContent = `SOAL ${currentQIdxInTeam + 1}/10`;
+      document.getElementById('currentQuestionTopicBadge').textContent = q.topic;
+      document.getElementById('stimulusTitle').textContent = q.stimulusTitle;
+      document.getElementById('stimulusText').textContent = q.stimulus;
+      document.getElementById('duelQuestionText').textContent = q.question;
+
+      const distractorsArr = Array.isArray(q.distractors) ? q.distractors : [];
+      const optionsArray = [
+        { text: q.correct, isCorrect: true },
+        ...distractorsArr.map(d => ({ text: d, isCorrect: false }))
+      ].sort(() => 0.5 - Math.random());
+
+      const optGrid = document.getElementById('duelOptionsGrid');
+      optGrid.innerHTML = '';
+
+      optionsArray.forEach((opt, idx) => {
+        const letter = String.fromCharCode(65 + idx);
+        const card = document.createElement('div');
+        card.id = `optCard-${letter}`;
+        card.className = "flex-1 min-h-[50px] p-3 rounded-xl border border-slate-800 bg-slate-950 text-white font-bold text-sm flex items-center gap-3.5 transition-all cursor-pointer hover:border-indigo-400 hover:bg-slate-900 active:scale-[0.98] shadow-sm";
+        card.onclick = () => selectAnswer(opt.isCorrect, letter, q.explanation);
+        card.innerHTML = `
+          <span class="w-8 h-8 rounded-lg bg-slate-800 text-indigo-400 font-black flex items-center justify-center flex-shrink-0 text-sm border border-slate-700">${letter}</span>
+          <span class="leading-snug text-xs sm:text-sm font-semibold">${opt.text}</span>
+        `;
+        optGrid.appendChild(card);
+      });
+    }
+
+    function selectAnswer(isCorrect, letter, explanation) {
+      const expBox = document.getElementById('explanationBox');
+      const expText = document.getElementById('explanationText');
+
+      if (isCorrect) {
+        if (currentTeam === 'A') teamScoreA++;
+        else teamScoreB++;
+
+        playSfxCorrect();
+
+        expText.innerHTML = `<b>TEPAT SEKALI! (${letter})</b>. ${explanation}`;
+        expBox.className = "bg-emerald-950/90 border border-emerald-500/50 rounded-xl p-2.5 text-emerald-200 text-xs sm:text-sm font-bold block flex-shrink-0 mt-2";
+      } else {
+        playSfxWrong();
+
+        expText.innerHTML = `<b>KURANG TEPAT! (${letter})</b>. ${explanation}`;
+        expBox.className = "bg-rose-950/90 border border-rose-500/50 rounded-xl p-2.5 text-rose-200 text-xs sm:text-sm font-bold block flex-shrink-0 mt-2";
+      }
+
+      updateScoreboardDisplays();
+
+      setTimeout(() => {
+        advanceQuestionOrFinishTeam();
+      }, 900);
+    }
+
+    function skipCurrentQuestion() {
+      playSfxWrong();
+      advanceQuestionOrFinishTeam();
+    }
+
+    function advanceQuestionOrFinishTeam() {
+      if (currentQIdxInTeam < 9) {
+        currentQIdxInTeam++;
+        loadCurrentTeamQuestion();
+      } else {
+        finishCurrentTeamSession();
+      }
+    }
+
+    function handleTimeOutForCurrentTeam() {
+      playSfxGameOver();
+      alert(`WAKTU 3 MENIT TELAH HABIS UNTUK SESI INI!`);
+      finishCurrentTeamSession();
+    }
+
+    function finishCurrentTeamSession() {
+      clearInterval(timerInterval);
+
+      if (currentTeam === 'A') {
+        timeRemainingA = teamTimerRemaining;
+        currentTeam = 'B';
+        currentQIdxInTeam = 0;
+        showTeamIntermissionModal('B');
+      } else {
+        timeRemainingB = teamTimerRemaining;
+        finalizeCompleteMatch();
+      }
+    }
+
+    function updateScoreboardDisplays() {
+      document.getElementById('scoreDisplayA').textContent = `${teamScoreA} / ${calculateRaport(teamScoreA)}`;
+      document.getElementById('scoreDisplayB').textContent = `${teamScoreB} / ${calculateRaport(teamScoreB)}`;
+    }
+
+    function finalizeCompleteMatch() {
+      const now = new Date();
+      const timeStr = now.toLocaleDateString('id-ID', { day: '2-digit', month: 'short' }) + ', ' +
+                      now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+
+      const finalScoreA = calculateRaport(teamScoreA);
+      const finalScoreB = calculateRaport(teamScoreB);
+
+      let realGroupA = groupList.find(g => g.name === teamGroupA.name);
+      if (realGroupA) {
+        realGroupA.correctCount = teamScoreA;
+        realGroupA.timeRemaining = timeRemainingA;
+        realGroupA.score = finalScoreA;
+        realGroupA.tested = true;
+        realGroupA.examTime = timeStr;
+        realGroupA.teamRole = 'Sudut Biru';
+      }
+
+      let realGroupB = groupList.find(g => g.name === teamGroupB.name);
+      if (realGroupB) {
+        realGroupB.correctCount = teamScoreB;
+        realGroupB.timeRemaining = timeRemainingB;
+        realGroupB.score = finalScoreB;
+        realGroupB.tested = true;
+        realGroupB.examTime = timeStr;
+        realGroupB.teamRole = 'Sudut Merah';
+      }
+
+      let winner = null;
+      let winReason = "";
+
+      if (finalScoreA > finalScoreB) {
+        winner = teamGroupA.name;
+        winReason = "Poin Analisis Unggul";
+      } else if (finalScoreB > finalScoreA) {
+        winner = teamGroupB.name;
+        winReason = "Poin Analisis Unggul";
+      } else {
+        if (timeRemainingA > timeRemainingB) {
+          winner = teamGroupA.name;
+          winReason = `Skor Seri, Unggul Sisa Waktu (${timeRemainingA}s vs ${timeRemainingB}s)`;
+        } else {
+          winner = teamGroupB.name;
+          winReason = `Skor Seri, Unggul Sisa Waktu (${timeRemainingB}s vs ${timeRemainingA}s)`;
+        }
+      }
+
+      if (activeMatchContext) {
+        activeMatchContext.winner = winner;
+        activeMatchContext.scoreP1 = `${teamScoreA}/10 (${finalScoreA})`;
+        activeMatchContext.scoreP2 = `${teamScoreB}/10 (${finalScoreB})`;
+
+        promoteWinnerInBracket(activeMatchContext, winner);
+      }
+
+      playSfxCorrect();
+
+      alert(`PERTANDINGAN SELESAI!\n\n🔵 Kelompok ${teamGroupA.name}: ${teamScoreA} Benar (Sisa: ${timeRemainingA}s) -> Nilai: ${finalScoreA}\n🔴 Kelompok ${teamGroupB.name}: ${teamScoreB} Benar (Sisa: ${timeRemainingB}s) -> Nilai: ${finalScoreB}\n\n🏆 Pemenang Lolos: Kelompok ${winner}\n(${winReason})`);
+
+      if (activeMatchContext && activeMatchContext.id === "FN1") {
+        showChampionCelebration(winner);
+      }
+
+      document.getElementById('examQuestionSection').classList.add('hidden');
+      document.getElementById('examContainerEmpty').classList.remove('hidden');
+
+      renderAttendanceList();
+      renderRecapTable();
+      renderBracketUI();
+      updateNextMatchPreview();
+      setActiveTab('bracket');
+      saveToLocalStorage();
+    }
+
+    function promoteWinnerInBracket(match, winnerName) {
+      if (match.id === "QF1") {
+        tournamentTree.semi[0].p1 = winnerName;
+      } else if (match.id === "QF2") {
+        tournamentTree.semi[0].p2 = winnerName;
+      } else if (match.id === "QF3") {
+        tournamentTree.semi[1].p1 = winnerName;
+      } else if (match.id === "QF4") {
+        tournamentTree.semi[1].p2 = winnerName;
+      } else if (match.id === "SF1") {
+        tournamentTree.final[0].p1 = winnerName;
+      } else if (match.id === "SF2") {
+        tournamentTree.final[0].p2 = winnerName;
+      }
+    }
+
+    function showChampionCelebration(champName) {
+      document.getElementById('championGroupName').textContent = champName;
+      document.getElementById('championModal').classList.remove('hidden');
+      confetti({
+        particleCount: 150,
+        spread: 90,
+        origin: { y: 0.5 }
+      });
+    }
+
+    function resetTournamentTreeConfirm() {
+      if (confirm("Reset ulang bagan pertandingan turnamen dan riwayat bank soal?")) {
+        tournamentTree = {
+          quarter: [
+            { id: "QF1", round: "Perempat Final", level: "easy", p1: HERO_NAMES[0], p2: HERO_NAMES[1], winner: null, scoreP1: null, scoreP2: null },
+            { id: "QF2", round: "Perempat Final", level: "easy", p1: HERO_NAMES[2], p2: HERO_NAMES[3], winner: null, scoreP1: null, scoreP2: null },
+            { id: "QF3", round: "Perempat Final", level: "easy", p1: HERO_NAMES[4], p2: HERO_NAMES[5], winner: null, scoreP1: null, scoreP2: null },
+            { id: "QF4", round: "Perempat Final", level: "easy", p1: HERO_NAMES[6], p2: HERO_NAMES[7], winner: null, scoreP1: null, scoreP2: null }
+          ],
+          semi: [
+            { id: "SF1", round: "Semi Final", level: "hard", p1: null, p2: null, winner: null, scoreP1: null, scoreP2: null },
+            { id: "SF2", round: "Semi Final", level: "hard", p1: null, p2: null, winner: null, scoreP1: null, scoreP2: null }
+          ],
+          final: [
+            { id: "FN1", round: "Grand Final", level: "hard", p1: null, p2: null, winner: null, scoreP1: null, scoreP2: null }
+          ]
+        };
+        usedQuestionIds.clear();
+        groupList.forEach(g => {
+          g.tested = false;
+          g.score = null;
+          g.correctCount = 0;
+          g.timeRemaining = 0;
+        });
+        renderBracketUI();
+        renderRecapTable();
+        renderAttendanceList();
+        updateNextMatchPreview();
+        saveToLocalStorage();
+      }
+    }
+
+    function renderBracketUI() {
+      const area = document.getElementById('bracketDisplayArea');
+      if (!area) return;
+      area.innerHTML = '';
+
+      const rounds = [
+        { key: "quarter", title: "1. Perempat Final (Dasar Fantasi)", matches: tournamentTree.quarter },
+        { key: "semi", title: "2. Semi Final (HOTS Magis)", matches: tournamentTree.semi },
+        { key: "final", title: "3. GRAND FINAL (HOTS Magis)", matches: tournamentTree.final }
+      ];
+
+      rounds.forEach(r => {
+        const col = document.createElement('div');
+        col.className = 'bracket-round';
+        col.innerHTML = `<h3 class="text-xs sm:text-sm font-black text-indigo-400 mb-2.5 uppercase text-center tracking-wider">${r.title}</h3>`;
+
+        r.matches.forEach(m => {
+          const card = document.createElement('div');
+          card.className = `bracket-match ${m.winner ? 'border-emerald-700/80' : 'border-slate-800'}`;
+          
+          const isPlayable = !m.winner && m.p1 && m.p2;
+
+          let team1StatusClass = "";
+          let team2StatusClass = "";
+          if (m.winner) {
+            team1StatusClass = m.winner === m.p1 ? "winner" : "loser";
+            team2StatusClass = m.winner === m.p2 ? "winner" : "loser";
+          }
+
+          card.innerHTML = `
+            <div class="flex items-center justify-between text-[10px] text-slate-400 font-bold mb-1 pb-1 border-b border-slate-800">
+              <span>Match #${m.id} (${m.level === 'easy' ? 'Level Dasar' : 'Level HOTS'})</span>
+              ${m.winner ? `<span class="text-emerald-400 font-black"><i class="fa-solid fa-check"></i> Selesai</span>` : (isPlayable ? `<span class="text-amber-400 animate-pulse font-black">Siap Tanding</span>` : `<span class="text-slate-600">Menunggu Tim</span>`)}
+            </div>
+            
+            <div class="bracket-team ${team1StatusClass}">
+              <span class="truncate max-w-[140px]">${m.p1 || '<i class="text-slate-600 font-normal">Pemenang QF...</i>'}</span>
+              <span class="font-mono text-xs text-slate-300">${m.scoreP1 || ''}</span>
+            </div>
+            
+            <div class="border-t border-slate-700/50 my-0.5"></div>
+            
+            <div class="bracket-team ${team2StatusClass}">
+              <span class="truncate max-w-[140px]">${m.p2 || '<i class="text-slate-600 font-normal">Pemenang QF...</i>'}</span>
+              <span class="font-mono text-xs text-slate-300">${m.scoreP2 || ''}</span>
+            </div>
+
+            ${isPlayable ? `
+              <button onclick='triggerMatchExecution(${JSON.stringify(m)})' class="w-full mt-2 py-1.5 bg-gradient-to-r from-indigo-600 to-cyan-600 hover:opacity-90 text-white font-black text-xs rounded-lg shadow flex items-center justify-center gap-1 transition">
+                <i class="fa-solid fa-gamepad"></i> Tandingkan Sekarang
+              </button>
+            ` : ''}
+          `;
+          col.appendChild(card);
+        });
+
+        area.appendChild(col);
+      });
+    }
+
+    function renderRecapTable() {
+      const tbody = document.getElementById('recapTableBody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      groupList.forEach((g, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-900/50 transition';
+        tr.innerHTML = `
+          <td class="p-3 text-center text-slate-500 font-mono font-bold">${idx + 1}</td>
+          <td class="p-3 font-bold text-white">${g.name}</td>
+          <td class="p-3 text-slate-400 text-xs">${g.members || '-'}</td>
+          <td class="p-3 text-center">${g.teamRole ? `<span class="px-2 py-0.5 rounded text-[10px] font-black ${g.teamRole === 'Sudut Biru' ? 'bg-blue-900 text-blue-300' : 'bg-rose-900 text-rose-300'}">${g.teamRole}</span>` : '-'}</td>
+          <td class="p-3 text-center font-mono font-bold ${g.correctCount >= 7 ? 'text-emerald-400' : 'text-amber-400'}">${g.tested ? g.correctCount + ' / 10' : '-'}</td>
+          <td class="p-3 text-center font-mono text-cyan-400 font-bold">${g.tested ? g.timeRemaining + 's' : '-'}</td>
+          <td class="p-3 text-center font-mono font-black text-sm text-cyan-300">${g.score !== null ? g.score : '-'}</td>
+          <td class="p-3 text-center">${g.tested ? '<span class="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-cyan-950 text-cyan-300 border border-cyan-700">Tuntas</span>' : '<span class="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-slate-800 text-slate-400">Menunggu</span>'}</td>
+          <td class="p-3 text-slate-400 text-xs">${g.examTime || '-'}</td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function exportRecapToCSV() {
+      let csv = "No,Kelompok Pahlawan,Anggota,Posisi,Benar (/10),Sisa Waktu,Nilai Raport,Status,Waktu Tampil\r\n";
+      groupList.forEach((g, idx) => {
+        csv += `${idx + 1},"${g.name}","${g.members || ''}",${g.teamRole || '-'},${g.correctCount || 0},${g.timeRemaining || 0},${g.score || ''},${g.tested ? 'Tuntas' : 'Belum'},${g.examTime || ''}\r\n`;
+      });
+      const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = "Rekap_Nilai_Turnamen_Teks_Fantasi_Kelas7.csv";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function copyRecapTextToClipboard() {
+      let summary = "*REKAP NILAI TURNAMEN ANALISIS CERITA FANTASI KELAS 7*\n";
+      summary += `Tanggal: ${new Date().toLocaleDateString('id-ID')}\n\n`;
+      groupList.forEach((g, idx) => {
+        summary += `${idx + 1}. *${g.name}* -> Nilai: ${g.score || '-'} (${g.correctCount || 0}/10 Benar, Sisa: ${g.timeRemaining || 0}s)\n`;
+        summary += `   Anggota: ${g.members || '-'}\n`;
+      });
+      navigator.clipboard.writeText(summary).then(() => {
+        alert("Ringkasan nilai turnamen teks fantasi berhasil disalin ke clipboard! Siap dipaste ke WhatsApp atau Word.");
+      }).catch(err => {
+        alert("Gagal menyalin: " + err);
+      });
+    }
+
+    window.onload = function() {
+      const inputEl = document.getElementById('inputRawStudents');
+      if (inputEl) {
+        inputEl.addEventListener('input', updateStudentPoolFromInput);
+        inputEl.addEventListener('paste', () => setTimeout(updateStudentPoolFromInput, 100));
+      }
+      loadFromLocalStorage();
+      updateStudentPoolFromInput();
+      renderAttendanceList();
+      renderRecapTable();
+      renderBracketUI();
+      updateNextMatchPreview();
+      drawStudentWheel();
+    };
+  </script>
+</body>
+</html>
